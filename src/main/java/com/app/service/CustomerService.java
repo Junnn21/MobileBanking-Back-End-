@@ -18,4 +18,8 @@ public class CustomerService {
 		return repository.findAll();
 	}
 	
+	public Customer findCustomerById(long id) {
+		return repository.findById(id);
+	}
+	
 }

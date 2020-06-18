@@ -3,9 +3,9 @@ package com.app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.app.entity.Customer;
+import com.app.entity.Status;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
-	Customer findById(long id);
+public interface StatusRepository extends JpaRepository<Status, Long>{
+	Status findById(long id);
 }
