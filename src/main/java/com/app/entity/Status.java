@@ -20,10 +20,10 @@ public class Status extends Auditable<String> {
 	private long id;
 	
 	@Column(name = "type")
-	private long type;
+	private String type;
 	
 	@Column(name = "code")
-	private long code;
+	private String code;
 	
 	@Column(name = "name")
 	private String name;
@@ -36,19 +36,19 @@ public class Status extends Auditable<String> {
 		this.id = id;
 	}
 
-	public long getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(long type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
-	public long getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(long code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 	

@@ -29,7 +29,7 @@ public class FundTransfer extends Auditable<String> {
 	private String bank_reference_number;
 	
 	@OneToOne
-	@JoinColumn(name = "lookup")
+	@JoinColumn(name = "transaction_type")
 	private Lookup transaction_type;
 	
 	@OneToOne

@@ -22,4 +22,8 @@ public class CustomerService {
 		return repository.findById(id);
 	}
 	
+	public Customer saveNewCustomer(Customer customer) {
+		return repository.save(customer);
+	}
+	
 }

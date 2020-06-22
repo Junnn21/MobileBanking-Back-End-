@@ -18,7 +18,7 @@ public class Customer extends Auditable<String>{
 	@Column(name = "id")
 	private Long id;
 	
-	@Column(name = "cif_code")
+	@Column(name = "cif_code", unique = true)
 	private String cif_code;
 	
 	@Column(name = "full_name")

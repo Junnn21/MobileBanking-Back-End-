@@ -2,14 +2,20 @@ package com.app.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.app.auditing.Auditable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "target_account")
@@ -34,8 +40,10 @@ public class TargetAccount extends Auditable<String>{
 	@JoinColumn(name = "status")
 	private Status status;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "customer")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
 	private Customer customer;
 	
 	@Column(name = "currency")

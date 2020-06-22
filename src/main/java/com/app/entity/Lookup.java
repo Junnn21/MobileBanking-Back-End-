@@ -22,10 +22,10 @@ public class Lookup extends Auditable<String> {
 	private long id;
 	
 	@Column(name = "type")
-	private int type;
+	private String type;
 	
 	@Column(name = "code")
-	private int code;
+	private String code;
 	
 	@Column(name = "name")
 	private String name;
@@ -42,19 +42,19 @@ public class Lookup extends Auditable<String> {
 		this.id = id;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
