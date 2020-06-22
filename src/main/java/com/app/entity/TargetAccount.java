@@ -2,7 +2,6 @@ package com.app.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,7 +39,7 @@ public class TargetAccount extends Auditable<String>{
 	@JoinColumn(name = "status")
 	private Status status;
 	
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne
 	@JoinColumn(name = "customer")
 	@OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

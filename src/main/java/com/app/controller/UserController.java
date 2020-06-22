@@ -30,6 +30,7 @@ public class UserController {
 	@Autowired
 	private CustomerRepository customerRepo;
 	
+	//tambahin user baru
 	@RequestMapping(value = "/saveNewUser", method = RequestMethod.POST)
 	public ResponseEntity<User> saveNewUser(@RequestBody ObjectNode object){
 		Status status = statusRepo.findById(object.get("status").asLong());
@@ -49,6 +50,7 @@ public class UserController {
 		}
 	}
 	
+	//login
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<User> login(@RequestBody ObjectNode object){
 		Boolean exist = false;

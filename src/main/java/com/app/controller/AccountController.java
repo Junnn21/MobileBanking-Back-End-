@@ -31,11 +31,13 @@ public class AccountController {
 	@Autowired
 	private CustomerRepository customerRepo;
 	
+	//buat show semua rekening
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
 	public List<Account> getAllAccount(){
 		return service.getAllAccount();
 	}
 	
+	//buat daftarin rekening baru
 	@RequestMapping(value = "/saveNewAccount", method = RequestMethod.POST)
 	public ResponseEntity<String> saveNewAccount(@RequestBody ObjectNode object) {
 		System.out.println(object.get("status"));
@@ -49,8 +51,14 @@ public class AccountController {
 			newAccount.setAccountNumber(object.get("account_number").asText());
 			newAccount.setStatus(status);
 			newAccount.setCustomer(customer);
-			service.saveNewAccount(newAccount);
-			return new ResponseEntity<>("Account Created Succesfully!", HttpStatus.OK);
+			
+			try {
+				service.saveNewAccount(newAccount);
+				return new ResponseEntity<>("Account Created Succesfully!", HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
 		}
 		else {
 			return new ResponseEntity<>("Error in creating account!", HttpStatus.BAD_REQUEST);
@@ -58,6 +66,7 @@ public class AccountController {
 		
 	}
 	
+	//buat nyari detail rekening dengan nomor rekening
 	@RequestMapping(value = "/findAccountByAccountNumber", method = RequestMethod.POST )
 	public Account findAccountByAccountNumber(@RequestBody ObjectNode accountNumber) {
 		System.out.println(accountNumber.get("accountNumber").asText());		

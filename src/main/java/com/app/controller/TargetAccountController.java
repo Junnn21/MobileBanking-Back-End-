@@ -35,6 +35,7 @@ public class TargetAccountController {
 	@Autowired
 	private TargetBankRepository targetBankRepo;
 	
+	//tambah target account
 	@RequestMapping(value = "/saveNewTargetAccount", method = RequestMethod.POST)
 	public ResponseEntity<TargetAccount> saveNewTargetAccount(@RequestBody ObjectNode object){
 		Customer customer = customerRepo.findById(object.get("customer").asLong());
@@ -50,6 +51,7 @@ public class TargetAccountController {
 		return new ResponseEntity<>(service.saveNewTargetAccount(targetAccount), HttpStatus.OK);
 	}
 	
+	//munculin list target account 
 	@RequestMapping
 	public ResponseEntity<List<TargetAccount>> getTargetAccount(@RequestBody ObjectNode object){
 		return new ResponseEntity<List<TargetAccount>>(service.getTargetAccount(customerRepo.findById(object.get("customer").asLong())), HttpStatus.OK);
