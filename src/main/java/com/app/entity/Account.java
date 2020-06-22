@@ -1,5 +1,7 @@
 package com.app.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "account")
-public class Account extends Auditable<String>{
+public class Account extends Auditable<String> implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +41,6 @@ public class Account extends Auditable<String>{
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "customer")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
 	private Customer customer;
 
 	public long getId() {

@@ -24,7 +24,7 @@ public class DummyBalance extends Auditable<String> {
 	private double balance;
 	
 	@OneToOne
-	@JoinColumn(name = "account")
+	@JoinColumn(name = "account", referencedColumnName = "account_number")
 	private Account account;
 
 	public long getId() {
@@ -50,5 +50,9 @@ public class DummyBalance extends Auditable<String> {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+
+
+
+	
 	
 }
