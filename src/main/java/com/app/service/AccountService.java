@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.entity.Account;
+import com.app.entity.Customer;
 import com.app.repository.AccountRepository;
 
 
@@ -25,5 +26,9 @@ public class AccountService {
 	
 	public Account findAccountByAccountNumber(String accountNumber) {
 		return repository.findAccountByAccountNumber(accountNumber);
+	}
+	
+	public List<Account> getListAccountByCustomer(Customer customer){
+		return repository.getListAccountByCustomer(customer);
 	}
 }
