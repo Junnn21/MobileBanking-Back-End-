@@ -43,7 +43,7 @@ public class MobileBankingConfig {
 	@Primary
 	@Bean(name = "mobileBankingEntityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean mobileBankingEntityManagerFactory(EntityManagerFactoryBuilder builder) {
-		return builder.dataSource(mobileBankingDataSource()).packages("com.app.entity.mobilebanking").build();
+		return builder.dataSource(mobileBankingDataSource()).packages("com.app.entity.mobilebanking", "com.app.entity.corebankingdummy").build();
 	}
 	
 	@Primary

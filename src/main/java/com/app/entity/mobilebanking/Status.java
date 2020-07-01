@@ -11,7 +11,7 @@ import javax.persistence.UniqueConstraint;
 import com.app.auditing.Auditable;
 
 @Entity
-@Table(name = "status", schema = "mobilebanking", uniqueConstraints = @UniqueConstraint(columnNames = {"type", "code"}))
+@Table(name = "status", catalog = "mobilebanking", schema = "mobilebanking", uniqueConstraints = @UniqueConstraint(columnNames = {"type", "code"}))
 public class Status extends Auditable<String> {
 	
 	@Id

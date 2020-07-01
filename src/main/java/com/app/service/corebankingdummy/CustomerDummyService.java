@@ -18,6 +18,10 @@ public class CustomerDummyService {
 		return repository.findAll();
 	}
 	
+	public CustomerDummy getCustomerDummyByCifCode(String cif_code) {
+		return repository.findCustomerDummyByCifCode(cif_code);
+	}
+	
 	public CustomerDummy saveNewCustomer(CustomerDummy customerDummy) {
 		return repository.save(customerDummy);
 	}

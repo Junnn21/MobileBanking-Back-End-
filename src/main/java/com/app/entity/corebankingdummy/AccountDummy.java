@@ -19,7 +19,7 @@ import com.app.entity.mobilebanking.Status;
 
 @Entity
 @Table(name = "account_dummy", schema = "corebankingdummy")
-public class AccountDummy extends Auditable<String> {
+public class AccountDummy extends Auditable<String>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +32,8 @@ public class AccountDummy extends Auditable<String> {
 	@Column(name = "account_name")
 	private String account_name;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "status")
+	@OneToOne
+	@JoinColumn(name = "status", referencedColumnName = "id")
 	private Status status;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
