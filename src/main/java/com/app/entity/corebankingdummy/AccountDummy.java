@@ -16,6 +16,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.app.auditing.Auditable;
 import com.app.entity.mobilebanking.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "account_dummy", schema = "corebankingdummy")
@@ -27,12 +28,13 @@ public class AccountDummy extends Auditable<String> {
 	private long id;
 	
 	@Column(name = "account_number")
-	private String account_number;
+	private String accountNumber;
 	
 	@Column(name = "account_name")
 	private String account_name;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+//	@JsonIgnore
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "status")
 	private Status status;
 	
@@ -52,12 +54,12 @@ public class AccountDummy extends Auditable<String> {
 		this.id = id;
 	}
 
-	public String getAccount_number() {
-		return account_number;
+	public String getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setAccount_number(String account_number) {
-		this.account_number = account_number;
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 	public String getAccount_name() {
