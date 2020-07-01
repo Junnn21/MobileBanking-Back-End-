@@ -31,4 +31,9 @@ public class AccountService {
 	public List<Account> getListAccountByCustomer(Customer customer){
 		return repository.getListAccountByCustomer(customer);
 	}
+	
+	public List<Account> deleteAccount(String accountNumber){
+		repository.delete(findAccountByAccountNumber(accountNumber));
+		return repository.findAll();
+	}
 }

@@ -27,13 +27,13 @@ public class AccountDummy extends Auditable<String>{
 	private long id;
 	
 	@Column(name = "account_number")
-	private String account_number;
+	private String accountNumber;
 	
 	@Column(name = "account_name")
 	private String account_name;
 	
 	@OneToOne
-	@JoinColumn(name = "status", referencedColumnName = "id")
+	@JoinColumn(name = "status")
 	private Status status;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -52,12 +52,12 @@ public class AccountDummy extends Auditable<String>{
 		this.id = id;
 	}
 
-	public String getAccount_number() {
-		return account_number;
+	public String getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setAccount_number(String account_number) {
-		this.account_number = account_number;
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 	public String getAccount_name() {
