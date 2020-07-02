@@ -52,7 +52,7 @@ public class TargetAccountController {
 	}
 	
 	//munculin list target account 
-	@RequestMapping
+	@RequestMapping(value = "/getTargetAccounts", method = RequestMethod.POST)
 	public ResponseEntity<List<TargetAccount>> getTargetAccount(@RequestBody ObjectNode object){
 		return new ResponseEntity<List<TargetAccount>>(service.getTargetAccount(customerRepo.findById(object.get("customer").asLong())), HttpStatus.OK);
 	}

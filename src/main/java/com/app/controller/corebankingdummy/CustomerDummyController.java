@@ -29,6 +29,12 @@ public class CustomerDummyController {
 		return new ResponseEntity<>(service.getAllCustomerDummy(), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/getCustomerDummyByCifCode", method = RequestMethod.POST)
+	public ResponseEntity<CustomerDummy> getCustomerDummyByCifCode(@RequestBody ObjectNode object){
+		String cif_code = object.get("cif_code").asText();
+		return new ResponseEntity<>(service.getCustomerDummyByCifCode(cif_code), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/saveCustomerDummy", method = RequestMethod.POST)
 	public ResponseEntity<CustomerDummy> saveNewCustomerDummy(@RequestBody ObjectNode object){
 		List<CustomerDummy> allCustomer = service.getAllCustomerDummy();
@@ -39,7 +45,7 @@ public class CustomerDummyController {
 		if(allCustomer.size() != 0) {
 			while(flag != 1) {
 				for (int i = 0; i < allCustomer.size(); i++) {
-					if(allCustomer.get(i).getCif_code().equals(cifCode)) {
+					if(allCustomer.get(i).getCifCode().equals(cifCode)) {
 						cifCode = Long.toString(Function.generateCifCode());
 						flag = 0;
 						break;
@@ -57,7 +63,7 @@ public class CustomerDummyController {
 		customer.setAddress(object.get("address").asText());
 		customer.setBirth_date(date);
 		customer.setBirth_place(object.get("birth_place").asText());
-		customer.setCif_code(cifCode);
+		customer.setCifCode(cifCode);
 		customer.setEmail(object.get("email").asText());
 		customer.setFull_name(object.get("full_name").asText());
 		customer.setGender(object.get("gender").asText());

@@ -19,6 +19,10 @@ public class AccountDummyService {
 		return repository.findAll();
 	}
 	
+	public AccountDummy findById(Long id) {
+		return repository.findAccountDummyById(id);
+	}
+	
 	public AccountDummy saveNewAccountDummy(AccountDummy accountDummy) {
 		return repository.save(accountDummy);
 	}

@@ -21,7 +21,7 @@ public class CustomerDummy extends Auditable<String> {
 	private long id;
 	
 	@Column(name = "cif_code", unique = true)
-	private String cif_code;
+	private String cifCode;
 	
 	@Column(name = "full_name")
 	private String full_name;
@@ -70,12 +70,12 @@ public class CustomerDummy extends Auditable<String> {
 		this.id = id;
 	}
 
-	public String getCif_code() {
-		return cif_code;
+	public String getCifCode() {
+		return cifCode;
 	}
 
-	public void setCif_code(String cif_code) {
-		this.cif_code = cif_code;
+	public void setCifCode(String cif_code) {
+		this.cifCode = cif_code;
 	}
 
 	public String getFull_name() {
