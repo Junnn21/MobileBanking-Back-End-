@@ -1,5 +1,7 @@
 package com.app.controller.mobilebanking;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,11 @@ public class TargetBankController {
 		targetBank.setSkn_enabled(object.get("sknEnabled").asInt());
 		targetBank.setStatus(statusRepo.findById(object.get("status").asLong()));
 		return new ResponseEntity<>(service.saveNewTargetBank(targetBank), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/targetBank", method = RequestMethod.GET)
+	public List<TargetBank> getAllTargetBank(){
+		return service.getAllTargetBank();
 	}
 	
 }

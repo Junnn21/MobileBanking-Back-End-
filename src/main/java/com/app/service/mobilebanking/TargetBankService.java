@@ -1,5 +1,7 @@
 package com.app.service.mobilebanking;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class TargetBankService {
 	
 	public TargetBank saveNewTargetBank(TargetBank targetBank) {
 		return repository.save(targetBank);
+	}
+	
+	public List<TargetBank> getAllTargetBank() {
+		return repository.findAll();
 	}
 	
 }
