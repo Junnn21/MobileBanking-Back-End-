@@ -50,7 +50,7 @@ public class FundTransferController {
 		return service.getAllFundTransfer();
 	}
 	
-	//buat transfer baru (BELOM KELAR BARU MASUKKIN DATA KE DATABASE, BELOM MANIPULASI BALANCE)
+	//buat transfer baru (BELOM NAMBAHIN STATEMENT DI CORE)
 	@RequestMapping(value = "/saveNewFundTransfer", method = RequestMethod.POST)
 	public ResponseEntity<FundTransfer> saveNewFundTransfer(@RequestBody ObjectNode object) {
 		FundTransfer newFundTransfer = new FundTransfer();
