@@ -60,6 +60,7 @@ public class AccountDummyController {
 		return service.findAccountDummyByAccountNumber(accountNumber);
 	}
 	
+	//buat dapetin semua rekening sama balance sekaligus
 	public ArrayList<AccountBalanceResponse> getAllBalanceByAccountNumber(@RequestBody ArrayList<String> accountNumberList){
 		ArrayList<AccountBalanceResponse> accountBalanceList = new ArrayList<AccountBalanceResponse>();
 		for(int i=0; i < accountNumberList.size(); i++) {
@@ -69,6 +70,14 @@ public class AccountDummyController {
 			accountBalanceList.add(newBalance);
 		}
 		return accountBalanceList;
+	}
+	
+	//buat update balance kalo transaksi
+	public ResponseEntity<String> updateBalance(@RequestBody String accountNumber, double amount){
+		AccountDummy accountDummy = service.findAccountDummyByAccountNumber(accountNumber);
+		accountDummy.setBalance(accountDummy.getBalance() + amount);  
+		service.saveNewAccountDummy(accountDummy);
+		return new ResponseEntity<>("Balance Updated!", HttpStatus.OK);
 	}
 	
 }

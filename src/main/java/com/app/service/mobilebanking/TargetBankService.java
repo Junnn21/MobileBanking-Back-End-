@@ -22,4 +22,8 @@ public class TargetBankService {
 		return repository.findAll();
 	}
 	
+	public TargetBank getTargetBankById(long id) {
+		return repository.findById(id);
+	}
+	
 }

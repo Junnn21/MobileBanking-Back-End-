@@ -57,4 +57,14 @@ public class TargetAccountController {
 		return new ResponseEntity<List<TargetAccount>>(service.getTargetAccount(customerRepo.findById(object.get("customer").asLong())), HttpStatus.OK);
 	}
 	
+	public TargetAccount getTargetAccountByCustomerAndTargetAccountNumber(Customer customer, String targetAccountNumber) {
+		List<TargetAccount> targetAccountList = service.getTargetAccount(customer);
+		for(int i = 0; i < targetAccountList.size(); i++) {
+			if(targetAccountList.get(i).getAccount_number().equals(targetAccountNumber)) {
+				return targetAccountList.get(i);
+			}
+		}
+		return null;
+	}
+	
 }

@@ -76,6 +76,12 @@ public class AccountController {
 		
 	}
 	
+	//kirim data ke core banking buat update balance
+	public ResponseEntity<String> updateBalanceCore (@RequestBody String accountNumber, double amount){
+		accountDummyController.updateBalance(accountNumber, amount);
+		return new ResponseEntity<String>("Update is being Processed", HttpStatus.ACCEPTED);
+	}
+	
 	//buat nyari detail rekening dengan nomor rekening
 	@RequestMapping(value = "/findAccountByAccountNumber", method = RequestMethod.POST )
 	public Account findAccountByAccountNumber(@RequestBody String accountNumber) {	
