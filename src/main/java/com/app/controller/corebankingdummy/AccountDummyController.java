@@ -80,4 +80,13 @@ public class AccountDummyController {
 		return new ResponseEntity<>("Balance Updated!", HttpStatus.OK);
 	}
 	
+	public Double getBalance(@RequestBody String accountNumber) {
+		AccountDummy accountDummy = service.findAccountDummyByAccountNumber(accountNumber);
+		return accountDummy.getBalance();
+	}
+	
+	public AccountDummy getAccountDummyByAccountNumber(@RequestBody String accountNumber) {
+		return service.findAccountDummyByAccountNumber(accountNumber);
+	}
+	
 }

@@ -1,8 +1,6 @@
 package com.app.controller.mobilebanking;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.controller.corebankingdummy.AccountDummyController;
+import com.app.controller.corebankingdummy.AccountStatementDummyController;
+import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.FundTransfer;
 import com.app.entity.mobilebanking.TargetAccount;
 import com.app.function.Function;
 import com.app.repository.mobilebanking.StatusRepository;
-import com.app.service.mobilebanking.AccountService;
 import com.app.service.mobilebanking.FundTransferService;
 import com.app.service.mobilebanking.LookupService;
 import com.app.service.mobilebanking.TargetBankService;
@@ -32,6 +32,12 @@ public class FundTransferController {
 	
 	@Autowired
 	private AccountController accountController;
+	
+	@Autowired
+	private AccountStatementDummyController accountStatementController;
+	
+	@Autowired
+	private AccountDummyController accountDummyController;
 	
 	@Autowired
 	private StatusRepository statusRepository;
@@ -56,6 +62,8 @@ public class FundTransferController {
 		FundTransfer newFundTransfer = new FundTransfer();
 		String accountNumber = object.get("accountNumber").asText();
 		String targetAccountNumber = object.get("targetAccountNumber").asText();
+		AccountDummy accountDummyPengirim = accountDummyController.getAccountDummyByAccountNumber(accountNumber);
+		AccountDummy accountDummyPenerima = accountDummyController.getAccountDummyByAccountNumber(targetAccountNumber);
 		Customer customer = accountController.findAccountByAccountNumber(accountNumber).getCustomer();
 		TargetAccount targetAccount = targetAccountController.getTargetAccountByCustomerAndTargetAccountNumber(customer, targetAccountNumber);
 		Double amount = object.get("amount").asDouble();
@@ -83,9 +91,20 @@ public class FundTransferController {
 		
 		//proses update balance dari rekening pengirim
 		accountController.updateBalanceCore(accountNumber, -newFundTransfer.getTotal_amount_debited());
+		//create new account statement rekening pengirim
+		Double balancePengirim = accountDummyController.getBalance(accountNumber);
+		accountStatementController.saveAccountStatementDummy(
+				accountDummyPengirim, newFundTransfer, "Fund Transfer", "To " + targetAccountNumber, 
+				-newFundTransfer.getTotal_amount_debited(), balancePengirim
+		);
 		
 		//proses update balance dari rekening penerima
-		accountController.updateBalanceCore(targetAccountNumber, newFundTransfer.getTotal_amount_debited());
+		accountController.updateBalanceCore(targetAccountNumber, newFundTransfer.getAmount());
+		Double balancePenerima = accountDummyController.getBalance(targetAccountNumber);
+		accountStatementController.saveAccountStatementDummy(
+				accountDummyPenerima, newFundTransfer, "Fund Transfer", "From " + accountNumber, 
+				newFundTransfer.getAmount(), balancePenerima
+		);
 		
 		return new ResponseEntity<FundTransfer>(service.saveNewFundTransfer(newFundTransfer), HttpStatus.OK);
 	}

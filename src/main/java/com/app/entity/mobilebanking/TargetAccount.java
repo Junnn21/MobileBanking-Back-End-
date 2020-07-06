@@ -14,7 +14,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.app.auditing.Auditable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "target_account", schema = "mobilebanking")
@@ -42,7 +41,6 @@ public class TargetAccount extends Auditable<String>{
 	@ManyToOne
 	@JoinColumn(name = "customer")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
 	private Customer customer;
 	
 	@Column(name = "currency")

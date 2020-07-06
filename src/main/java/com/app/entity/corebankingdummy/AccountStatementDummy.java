@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,9 +19,11 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "account_statement_dummy", schema = "corebankingdummy")
+@EntityListeners(AuditingEntityListener.class)
 public class AccountStatementDummy {
 
 	@Id
@@ -33,6 +36,7 @@ public class AccountStatementDummy {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AccountDummy account;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "posting_date")
 	private Date posting_date;
 	

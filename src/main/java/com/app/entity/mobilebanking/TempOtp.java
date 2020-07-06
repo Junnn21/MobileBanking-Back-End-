@@ -17,8 +17,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "temp_otp", schema = "mobilebanking")
 public class TempOtp {
@@ -42,7 +40,6 @@ public class TempOtp {
 	@ManyToOne
 	@JoinColumn(name = "user")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	private User user;
 
 	public long getId() {

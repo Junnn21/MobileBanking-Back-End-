@@ -15,6 +15,10 @@ public class TempOtpService {
 	@Autowired
 	private TempOtpRepository repository;
 	
+	public List<TempOtp> getTempOtp(){
+		return repository.findAll();
+	}
+	
 	public TempOtp saveTempOtp(TempOtp tempOtp) {
 		return repository.save(tempOtp);
 	}

@@ -17,8 +17,6 @@ import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
-import com.app.repository.corebankingdummy.AccountDummyRepository;
-import com.app.repository.corebankingdummy.CustomerDummyRepository;
 import com.app.repository.mobilebanking.CustomerRepository;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.responseBody.AccountBalanceResponse;

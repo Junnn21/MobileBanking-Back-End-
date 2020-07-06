@@ -39,6 +39,11 @@ public class TempOtpController {
         return true;
     }
 	
+	@RequestMapping(value = "/tempOtp", method = RequestMethod.GET)
+	public ResponseEntity<List<TempOtp>> tempOtp(){
+		return new ResponseEntity<>(service.getTempOtp(), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/saveTempOtp", method = RequestMethod.POST)
 	public ResponseEntity<TempOtp> saveTempOtp(@RequestBody ObjectNode object){
 		TempOtp tempOtp = new TempOtp();

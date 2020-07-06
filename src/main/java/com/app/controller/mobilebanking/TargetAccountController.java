@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
 import com.app.entity.mobilebanking.TargetAccount;
@@ -30,6 +31,9 @@ public class TargetAccountController {
 	private CustomerRepository customerRepo;
 	
 	@Autowired
+	private AccountController accountController;
+	
+	@Autowired
 	private StatusRepository statusRepo;
 	
 	@Autowired
@@ -38,6 +42,7 @@ public class TargetAccountController {
 	//tambah target account
 	@RequestMapping(value = "/saveNewTargetAccount", method = RequestMethod.POST)
 	public ResponseEntity<TargetAccount> saveNewTargetAccount(@RequestBody ObjectNode object){
+		Account account = accountController.findAccountByAccountNumber(object.get("accountNumber").asText());
 		Customer customer = customerRepo.findById(object.get("customer").asLong());
 		Status status = statusRepo.findById(object.get("status").asLong());
 		TargetBank targetBank = targetBankRepo.findById(object.get("targetBank").asLong());
@@ -46,7 +51,7 @@ public class TargetAccountController {
 		targetAccount.setBank_detail(targetBank);
 		targetAccount.setCurrency("IDR");
 		targetAccount.setCustomer(customer);
-		targetAccount.setName(customer.getFull_name());
+		targetAccount.setName(account.getAccount_name());
 		targetAccount.setStatus(status);
 		return new ResponseEntity<>(service.saveNewTargetAccount(targetAccount), HttpStatus.OK);
 	}
