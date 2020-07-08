@@ -56,7 +56,6 @@ public class FundTransferController {
 		return service.getAllFundTransfer();
 	}
 	
-	//buat transfer baru (BELOM NAMBAHIN STATEMENT DI CORE)
 	@RequestMapping(value = "/saveNewFundTransfer", method = RequestMethod.POST)
 	public ResponseEntity<FundTransfer> saveNewFundTransfer(@RequestBody ObjectNode object) {
 		FundTransfer newFundTransfer = new FundTransfer();
