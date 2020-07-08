@@ -91,6 +91,7 @@ public class FundTransferController {
 		
 		//proses update balance dari rekening pengirim
 		accountController.updateBalanceCore(accountNumber, -newFundTransfer.getTotal_amount_debited());
+		
 		//create new account statement rekening pengirim
 		Double balancePengirim = accountDummyController.getBalance(accountNumber);
 		accountStatementController.saveAccountStatementDummy(
@@ -100,6 +101,8 @@ public class FundTransferController {
 		
 		//proses update balance dari rekening penerima
 		accountController.updateBalanceCore(targetAccountNumber, newFundTransfer.getAmount());
+		
+		//create new account statement rekening penerima
 		Double balancePenerima = accountDummyController.getBalance(targetAccountNumber);
 		accountStatementController.saveAccountStatementDummy(
 				accountDummyPenerima, newFundTransfer, "Fund Transfer", "From " + accountNumber, 
