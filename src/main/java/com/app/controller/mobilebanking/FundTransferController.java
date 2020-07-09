@@ -85,7 +85,7 @@ public class FundTransferController {
 		newFundTransfer.setTarget_account(targetAccount);
 		newFundTransfer.setTarget_bank(targetBankService.getTargetBankById(object.get("targetBank").asLong()));
 		newFundTransfer.setTotal_amount_debited(amount + bankCharge);
-		newFundTransfer.setTransaction_type(lookupService.getLookupById(1)); //hardcode karena masih kurang ngerti
+		newFundTransfer.setTransaction_type(lookupService.getLookupById(object.get("lookup").asLong()));
 		newFundTransfer.setTransfer_date(time);
 		newFundTransfer.setCurrency(targetAccount.getCurrency());
 		

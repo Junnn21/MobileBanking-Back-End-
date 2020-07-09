@@ -48,19 +48,16 @@ public class TransChargeController {
 		Timestamp date = new Timestamp(System.currentTimeMillis());
 		Lookup lookup = lookupService.getLookupById(object.get("relationToBank").asLong());
 		Status status = statusRepository.findById(object.get("status").asLong());
-		String cif = String.valueOf((int)Function.generateCifCode());
 		
 		newTransCharge.setTransaction_type(object.get("transactionType").asText());
 		newTransCharge.setMerchant_mode(object.get("merchantMode").asText());
 		newTransCharge.setRelation_to_bank(lookup);
-		newTransCharge.setCif_code(cif);
 		newTransCharge.setCharge_amount(object.get("chargeAmount").asDouble());
 		newTransCharge.setEffective_date(date);
 		newTransCharge.setReference_key(
 				object.get("transactionType").asText() + "|" + 
 				object.get("merchantMode").asText() + "|" + 
-				lookup.getCode() + "|" + 
-				cif
+				lookup.getCode()
 		);
 		newTransCharge.setStatus(status);
 		newTransCharge.setCurrency("IDR");
