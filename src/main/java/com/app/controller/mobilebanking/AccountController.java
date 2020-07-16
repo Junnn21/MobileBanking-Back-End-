@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.app.controller.corebankingdummy.AccountDummyController;
+import com.app.controller.corebankingdummy.AccountStatementDummyController;
 import com.app.entity.corebankingdummy.AccountDummy;
+import com.app.entity.corebankingdummy.AccountStatementDummy;
 import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
 import com.app.repository.mobilebanking.CustomerRepository;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.responseBody.AccountBalanceResponse;
+import com.app.responseBody.AccountStatementResponse;
 import com.app.service.mobilebanking.AccountService;
 
 
@@ -37,6 +40,9 @@ public class AccountController {
 	
 	@Autowired
 	private AccountDummyController accountDummyController;
+	
+	@Autowired
+	private AccountStatementDummyController accountStatementDummyController;
 	
 	
 	//buat show semua rekening
@@ -141,5 +147,11 @@ public class AccountController {
 			}
 		}
 		return accountDummyController.getAllBalanceByAccountNumber(createAccountNumberList(service.getListAccountByCustomer(customerRepo.findById(object.get("customer").asLong()))));
+	}
+	
+	@RequestMapping(value = "/getAllAccountStatementByCustomer", method = RequestMethod.POST)
+	public ArrayList<AccountStatementResponse> getAllAccountStatementsByCustomerId(@RequestBody ObjectNode object){
+		ArrayList<String> accountNumberList = createAccountNumberList(service.getListAccountByCustomer(customerRepo.findById(object.get("customer").asLong())));
+		return accountStatementDummyController.getAllAccountStatementDummy(accountNumberList);
 	}
 }	
