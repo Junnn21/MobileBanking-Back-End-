@@ -30,7 +30,7 @@ public class CustomerController {
 		if(allCustomer.size() != 0) {
 			while(flag != 1) {
 				for (int i = 0; i < allCustomer.size(); i++) {
-					if(allCustomer.get(i).getCif_code().equals(cifCode)) {
+					if(allCustomer.get(i).getCifCode().equals(cifCode)) {
 						cifCode = Long.toString(Function.generateCifCode());
 						flag = 0;
 						break;
@@ -40,7 +40,7 @@ public class CustomerController {
 				}
 			}
 		}
-		customer.setCif_code(cifCode);
+		customer.setCifCode(cifCode);
 		customer.setEmail(object.get("email").asText());
 		customer.setFull_name(object.get("fullName").asText());
 		return new ResponseEntity<>(service.saveNewCustomer(customer), HttpStatus.OK);

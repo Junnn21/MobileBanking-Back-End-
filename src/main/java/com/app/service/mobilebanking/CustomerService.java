@@ -26,4 +26,8 @@ public class CustomerService {
 		return repository.save(customer);
 	}
 	
+	public Customer findCustomerByCifCode(String cif_code) {
+		return repository.findCustomerByCifCode(cif_code);
+	}
+	
 }

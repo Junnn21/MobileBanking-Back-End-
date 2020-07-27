@@ -52,7 +52,7 @@ public class AccountDummyController {
 	
 	@RequestMapping(value = "/findAccountDummyByCustomerDummy", method = RequestMethod.POST)
 	public List<AccountDummy> findAccountDummyByCustomerDummy (@RequestBody ObjectNode object){
-		CustomerDummy customer = customerDummyRepo.findCustomerDummyById(object.get("customer").asLong());
+		CustomerDummy customer = customerDummyRepo.findCustomerDummyByCifCode(object.get("cif_code").asText());
 		return service.findAccountDummyByCustomer(customer);
 	}
 	
