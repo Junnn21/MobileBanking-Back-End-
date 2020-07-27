@@ -147,7 +147,7 @@ public class AccountController {
 	
 	@RequestMapping(value = "/getAllAccountStatementByCustomer", method = RequestMethod.POST)
 	public ArrayList<AccountStatementResponse> getAllAccountStatementsByCustomerId(@RequestBody ObjectNode object){
-		ArrayList<String> accountNumberList = createAccountNumberList(service.getListAccountByCustomer(customerRepo.findById(object.get("customer").asLong())));
+		ArrayList<String> accountNumberList = createAccountNumberList(service.getListAccountByCustomer(customerRepo.findCustomerByCifCode(object.get("cif_code").asText())));
 		return accountStatementDummyController.getAllAccountStatementDummy(accountNumberList);
 	}
 }	
