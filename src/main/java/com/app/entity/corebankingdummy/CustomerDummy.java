@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.app.auditing.Auditable;
 
 @Entity
-@Table(name = "customer_dummy", schema = "corebankingdummy")
+@Table(name = "customer_dummy", catalog = "corebankingdummy", schema = "corebankingdummy")
 public class CustomerDummy extends Auditable<String> {
 
 	@Id

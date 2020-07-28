@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.entity.corebankingdummy.CustomerDummy;
 import com.app.entity.mobilebanking.Customer;
 import com.app.function.Function;
 import com.app.service.mobilebanking.CustomerService;
@@ -30,7 +31,7 @@ public class CustomerController {
 		if(allCustomer.size() != 0) {
 			while(flag != 1) {
 				for (int i = 0; i < allCustomer.size(); i++) {
-					if(allCustomer.get(i).getCif_code().equals(cifCode)) {
+					if(allCustomer.get(i).getCifCode().equals(cifCode)) {
 						cifCode = Long.toString(Function.generateCifCode());
 						flag = 0;
 						break;
@@ -40,10 +41,27 @@ public class CustomerController {
 				}
 			}
 		}
-		customer.setCif_code(cifCode);
+		customer.setCifCode(cifCode);
 		customer.setEmail(object.get("email").asText());
 		customer.setFull_name(object.get("fullName").asText());
 		return new ResponseEntity<>(service.saveNewCustomer(customer), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getCustomerByCifCode", method = RequestMethod.POST)
+	public ResponseEntity<Customer> getCustomerByCifCode(@RequestBody ObjectNode object){
+		return new ResponseEntity<>(service.findCustomerByCifCode(object.get("cif_code").asText()), HttpStatus.OK);
+	}
+	
+	public Customer getCustomerById(long id){
+		return service.findCustomerById(id);
+	}
+	
+	public Customer saveCustomer(CustomerDummy customerDummy) {
+		Customer customer = new Customer();
+		customer.setCifCode(customerDummy.getCifCode());
+		customer.setEmail(customerDummy.getEmail());
+		customer.setFull_name(customerDummy.getFull_name());
+		return  service.saveNewCustomer(customer);
 	}
 	
 }

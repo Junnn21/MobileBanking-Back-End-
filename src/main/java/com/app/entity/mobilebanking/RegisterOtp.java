@@ -17,9 +17,11 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
+import com.app.entity.corebankingdummy.CustomerDummy;
+
 @Entity
-@Table(name = "temp_otp", schema = "mobilebanking")
-public class TempOtp {
+@Table(name = "register_otp", schema = "mobilebanking")
+public class RegisterOtp {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,9 +40,9 @@ public class TempOtp {
 	private Date expired_date;
 	
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "customer_dummy", referencedColumnName = "id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private User user;
+	private CustomerDummy customerDummy;
 
 	public long getId() {
 		return id;
@@ -74,12 +76,12 @@ public class TempOtp {
 		this.expired_date = expired_date;
 	}
 
-	public User getUser() {
-		return user;
+	public CustomerDummy getCustomerDummy() {
+		return customerDummy;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCustomerDummy(CustomerDummy customerDummy) {
+		this.customerDummy = customerDummy;
 	}
 	
 }

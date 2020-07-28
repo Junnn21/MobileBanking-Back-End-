@@ -9,4 +9,5 @@ import com.app.entity.corebankingdummy.CustomerDummy;
 public interface CustomerDummyRepository extends JpaRepository<CustomerDummy, Long> {
 	CustomerDummy findCustomerDummyById(long id);
 	CustomerDummy findCustomerDummyByCifCode(String cif_code);
+	CustomerDummy findCustomerDummyByPan(String pan);
 }

@@ -11,6 +11,10 @@ public class Function {
 		return 10000000000L + ((long)random.nextInt(900000000)*100) + random.nextInt(100);
 	}
 	
+	public static long generateAccountNumber() {
+		return (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
+	}
+	
 	public static String generateTransactionReferenceNumber() {
 		Random random = new Random();
 		Date date = new Date();

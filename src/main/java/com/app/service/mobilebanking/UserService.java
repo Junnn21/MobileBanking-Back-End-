@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.User;
 import com.app.repository.mobilebanking.UserRepository;
 
@@ -24,6 +25,10 @@ public class UserService {
 	
 	public User findUserByUsername(String username) {
 		return repository.findUserByUsername(username);
+	}
+	
+	public User findUserByCustomer(Customer customer) {
+		return repository.findByCustomer(customer);
 	}
 	
 }

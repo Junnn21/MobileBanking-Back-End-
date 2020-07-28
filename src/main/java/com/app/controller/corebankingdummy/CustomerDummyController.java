@@ -35,6 +35,17 @@ public class CustomerDummyController {
 		return new ResponseEntity<>(service.getCustomerDummyByCifCode(cif_code), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/getCustomerDummyByPAN", method = RequestMethod.POST)
+	public ResponseEntity<CustomerDummy> getCustomerDummyByPAN(@RequestBody ObjectNode object){
+		CustomerDummy customer = service.getCustomerDummyByPan(object.get("pan").asText());
+		
+//		if(customer != null) {
+//			return new ResponseEntity<>(customer, HttpStatus.OK);
+//		}
+//		
+		return new ResponseEntity<>(customer, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/saveCustomerDummy", method = RequestMethod.POST)
 	public ResponseEntity<CustomerDummy> saveNewCustomerDummy(@RequestBody ObjectNode object){
 		List<CustomerDummy> allCustomer = service.getAllCustomerDummy();
@@ -76,6 +87,19 @@ public class CustomerDummyController {
 		customer.setPin(object.get("pin").asText());
 		
 		return new ResponseEntity<>(service.saveNewCustomer(customer), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/validatePIN", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> validatePIN(@RequestBody ObjectNode object){
+		CustomerDummy customer = service.getCustomerDummyById(object.get("customer").asLong());
+		if(object.get("pin").asText().equals(customer.getPin())) {
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(false, HttpStatus.OK);
+	}
+	
+	public CustomerDummy getCustomerDummyById(long id) {
+		return service.getCustomerDummyById(id);
 	}
 	
 }

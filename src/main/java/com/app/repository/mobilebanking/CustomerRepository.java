@@ -8,4 +8,5 @@ import com.app.entity.mobilebanking.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	Customer findById(long id);
+	Customer findByCifCode(String cifCode);
 }

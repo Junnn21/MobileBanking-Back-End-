@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.corebankingdummy.CustomerDummy;
 import com.app.entity.mobilebanking.Status;
+import com.app.function.Function;
 import com.app.repository.corebankingdummy.CustomerDummyRepository;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.service.corebankingdummy.AccountDummyService;
@@ -39,11 +40,27 @@ public class AccountDummyController {
 	
 	@RequestMapping(value = "/saveAccountDummy", method = RequestMethod.POST)
 	public ResponseEntity<AccountDummy> saveNewAccountDummy(@RequestBody ObjectNode object){
+		List<AccountDummy> allAccount = service.getAllAccountDummy();
+		String accountNumber = Long.toString(Function.generateAccountNumber());
+		int flag = 0;
+		if(allAccount.size() != 0) {
+			while(flag !=1) {
+				for (int i = 0; i < allAccount.size(); i++) {
+					if(allAccount.get(i).getAccountNumber().equals(accountNumber)) {
+						accountNumber = Long.toString(Function.generateAccountNumber());
+						flag = 0;
+						break;
+					}else {
+						flag = 1;
+					}
+				}
+			}
+		}
 		AccountDummy account = new AccountDummy();
 		CustomerDummy customer = customerDummyRepo.findCustomerDummyById(object.get("customer").asLong());
 		Status status = statusRepo.findById(object.get("status").asLong());
-		account.setAccount_name(object.get("account_name").asText());
-		account.setAccountNumber(object.get("account_number").asText());
+		account.setAccount_name(customer.getFull_name());
+		account.setAccountNumber(accountNumber);
 		account.setBalance(object.get("balance").asDouble());
 		account.setCustomer(customer);
 		account.setStatus(status);
