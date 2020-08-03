@@ -73,6 +73,7 @@ public class AccountDummyController {
 		return service.findAccountDummyByCustomer(customer);
 	}
 	
+	@RequestMapping(value = "/findAccountDummyByAccountNumber", method = RequestMethod.POST)
 	public AccountDummy findAccountDummyByAccountNumber(@RequestBody String accountNumber) {
 		return service.findAccountDummyByAccountNumber(accountNumber);
 	}

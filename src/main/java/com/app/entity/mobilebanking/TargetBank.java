@@ -24,22 +24,22 @@ public class TargetBank extends Auditable<String>{
 	private String bank_name;
 	
 	@Column(name = "network_code")
-	private int network_code;
+	private String network_code;
 	
 	@Column(name = "skn_code")
-	private int skn_code;
+	private String skn_code;
 	
 	@Column(name = "rtgs_code")
-	private int rtgs_code;
+	private String rtgs_code;
 	
 	@Column(name = "network_enabled")
-	private int network_enabled;
+	private String network_enabled;
 	
 	@Column(name = "skn_enabled")
-	private int skn_enabled;
+	private String skn_enabled;
 	
 	@Column(name = "rtgs_enabled")
-	private int rtgs_enabled;
+	private String rtgs_enabled;
 	
 	@OneToOne
 	@JoinColumn(name = "status")
@@ -61,51 +61,51 @@ public class TargetBank extends Auditable<String>{
 		this.bank_name = bank_name;
 	}
 
-	public int getNetwork_code() {
+	public String getNetwork_code() {
 		return network_code;
 	}
 
-	public void setNetwork_code(int network_code) {
+	public void setNetwork_code(String network_code) {
 		this.network_code = network_code;
 	}
 
-	public int getSkn_code() {
+	public String getSkn_code() {
 		return skn_code;
 	}
 
-	public void setSkn_code(int skn_code) {
+	public void setSkn_code(String skn_code) {
 		this.skn_code = skn_code;
 	}
 
-	public int getRtgs_code() {
+	public String getRtgs_code() {
 		return rtgs_code;
 	}
 
-	public void setRtgs_code(int rtgs_code) {
+	public void setRtgs_code(String rtgs_code) {
 		this.rtgs_code = rtgs_code;
 	}
 
-	public int getNetwork_enabled() {
+	public String getNetwork_enabled() {
 		return network_enabled;
 	}
 
-	public void setNetwork_enabled(int network_enabled) {
+	public void setNetwork_enabled(String network_enabled) {
 		this.network_enabled = network_enabled;
 	}
 
-	public int getSkn_enabled() {
+	public String getSkn_enabled() {
 		return skn_enabled;
 	}
 
-	public void setSkn_enabled(int skn_enabled) {
+	public void setSkn_enabled(String skn_enabled) {
 		this.skn_enabled = skn_enabled;
 	}
 
-	public int getRtgs_enabled() {
+	public String getRtgs_enabled() {
 		return rtgs_enabled;
 	}
 
-	public void setRtgs_enabled(int rtgs_enabled) {
+	public void setRtgs_enabled(String rtgs_enabled) {
 		this.rtgs_enabled = rtgs_enabled;
 	}
 

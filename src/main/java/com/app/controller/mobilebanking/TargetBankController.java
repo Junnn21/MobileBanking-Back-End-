@@ -27,13 +27,13 @@ public class TargetBankController {
 	@RequestMapping(value = "/saveNewTargetBank", method = RequestMethod.POST)
 	public ResponseEntity<TargetBank> saveNewTargetBank(@RequestBody ObjectNode object){
 		TargetBank targetBank = new TargetBank();
-		targetBank.setBank_name(object.get("bankName").asText());
-		targetBank.setNetwork_code(object.get("networkCode").asInt());
-		targetBank.setNetwork_enabled(object.get("networkEnabled").asInt());
-		targetBank.setRtgs_code(object.get("rtgsCode").asInt());
-		targetBank.setRtgs_enabled(object.get("rtgsEnabled").asInt());
-		targetBank.setSkn_code(object.get("sknCode").asInt());
-		targetBank.setSkn_enabled(object.get("sknEnabled").asInt());
+		targetBank.setBank_name(object.get("bank_name").asText());
+		targetBank.setNetwork_code(object.get("network_code").asText());
+		targetBank.setNetwork_enabled(object.get("network_enabled").asText());
+		targetBank.setRtgs_code(object.get("rtgs_code").asText());
+		targetBank.setRtgs_enabled(object.get("rtgs_enabled").asText());
+		targetBank.setSkn_code(object.get("skn_code").asText());
+		targetBank.setSkn_enabled(object.get("skn_enabled").asText());
 		targetBank.setStatus(statusRepo.findById(object.get("status").asLong()));
 		return new ResponseEntity<>(service.saveNewTargetBank(targetBank), HttpStatus.OK);
 	}
