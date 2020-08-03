@@ -56,6 +56,10 @@ public class CustomerController {
 		return service.findCustomerById(id);
 	}
 	
+	public Customer getByCifCode(String cifCode) {
+		return service.findCustomerByCifCode(cifCode);
+	}
+	
 	public Customer saveCustomer(CustomerDummy customerDummy) {
 		Customer customer = new Customer();
 		customer.setCifCode(customerDummy.getCifCode());

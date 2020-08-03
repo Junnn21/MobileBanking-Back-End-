@@ -107,11 +107,7 @@ public class AccountController {
 	public ArrayList<AccountBalanceResponse> linkUnlinkAccount(@RequestBody ObjectNode object){
 		
 		List<AccountDummy> coreBankingAccountList = accountDummyController.findAccountDummyByCustomerDummy(object);
-		List<Account> channelAccountList = service.getListAccountByCustomer(customerRepo.findById(object.get("customer").asLong()));
-		System.out.println("rekening channel: ");
-		for(int i = 0; i < channelAccountList.size(); i++) {
-			System.out.println(channelAccountList.get(i).getAccountNumber());
-		}
+		List<Account> channelAccountList = service.getListAccountByCustomer(customerRepo.findCustomerByCifCode(object.get("cif_code").asText()));
 		
 		//Langsung masukin semua rekening (berdasarkan customer) dari corebanking kalau list rekening (berdasarkan customer) di channel kosong
 		if(channelAccountList.size() == 0) {
@@ -119,7 +115,7 @@ public class AccountController {
 				Account account = new Account();
 				account.setAccountNumber(coreBankingAccountList.get(i).getAccountNumber());
 				account.setAccount_name(coreBankingAccountList.get(i).getAccount_name());
-				account.setCustomer(customerRepo.findById(coreBankingAccountList.get(i).getCustomer().getId()));
+				account.setCustomer(customerRepo.findCustomerByCifCode(coreBankingAccountList.get(i).getCustomer().getCifCode()));
 				account.setStatus(statusRepo.findById(coreBankingAccountList.get(i).getStatus().getId()));
 				service.saveNewAccount(account);
 			}
@@ -140,18 +136,18 @@ public class AccountController {
 					Account account = new Account();
 					account.setAccountNumber(coreBankingAccountList.get(i).getAccountNumber());
 					account.setAccount_name(coreBankingAccountList.get(i).getAccount_name());
-					account.setCustomer(customerRepo.findById(coreBankingAccountList.get(i).getCustomer().getId()));
+					account.setCustomer(customerRepo.findCustomerByCifCode(coreBankingAccountList.get(i).getCustomer().getCifCode()));
 					account.setStatus(statusRepo.findById(coreBankingAccountList.get(i).getStatus().getId()));
 					service.saveNewAccount(account);
 				}
 			}
 		}
-		return accountDummyController.getAllBalanceByAccountNumber(createAccountNumberList(service.getListAccountByCustomer(customerRepo.findById(object.get("customer").asLong()))));
+		return accountDummyController.getAllBalanceByAccountNumber(createAccountNumberList(service.getListAccountByCustomer(customerRepo.findCustomerByCifCode(object.get("cif_code").asText()))));
 	}
 	
 	@RequestMapping(value = "/getAllAccountStatementByCustomer", method = RequestMethod.POST)
 	public ArrayList<AccountStatementResponse> getAllAccountStatementsByCustomerId(@RequestBody ObjectNode object){
-		ArrayList<String> accountNumberList = createAccountNumberList(service.getListAccountByCustomer(customerRepo.findById(object.get("customer").asLong())));
+		ArrayList<String> accountNumberList = createAccountNumberList(service.getListAccountByCustomer(customerRepo.findCustomerByCifCode(object.get("cif_code").asText())));
 		return accountStatementDummyController.getAllAccountStatementDummy(accountNumberList);
 	}
 }	
