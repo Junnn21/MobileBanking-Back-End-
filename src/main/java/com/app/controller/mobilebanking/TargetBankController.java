@@ -38,7 +38,7 @@ public class TargetBankController {
 		return new ResponseEntity<>(service.saveNewTargetBank(targetBank), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/targetBank", method = RequestMethod.GET)
+	@RequestMapping(value = "/targetBank", method = RequestMethod.POST)
 	public List<TargetBank> getAllTargetBank(){
 		return service.getAllTargetBank();
 	}

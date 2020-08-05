@@ -74,6 +74,10 @@ public class AccountDummyController {
 	}
 	
 	@RequestMapping(value = "/findAccountDummyByAccountNumber", method = RequestMethod.POST)
+	public AccountDummy findByAccountNumber(@RequestBody ObjectNode object) {
+		return service.findAccountDummyByAccountNumber(object.get("accNumber").asText());
+	}
+	
 	public AccountDummy findAccountDummyByAccountNumber(@RequestBody String accountNumber) {
 		return service.findAccountDummyByAccountNumber(accountNumber);
 	}
