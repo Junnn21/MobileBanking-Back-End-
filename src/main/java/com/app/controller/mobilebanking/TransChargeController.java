@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.entity.mobilebanking.Lookup;
 import com.app.entity.mobilebanking.Status;
 import com.app.entity.mobilebanking.TransCharge;
-import com.app.function.Function;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.service.mobilebanking.LookupService;
 import com.app.service.mobilebanking.TransChargeService;
@@ -31,7 +30,7 @@ public class TransChargeController {
 	@Autowired
 	private StatusRepository statusRepository;
 	
-	@RequestMapping(value = "/transCharge", method = RequestMethod.GET)
+	@RequestMapping(value = "/transCharge", method = RequestMethod.POST)
 	public List<TransCharge> getAllTransCharge(){
 		return service.getAllTransCharge();
 	}
