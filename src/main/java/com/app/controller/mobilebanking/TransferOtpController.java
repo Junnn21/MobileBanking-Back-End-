@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.TransferOtp;
+import com.app.service.mobilebanking.MailService;
 import com.app.service.mobilebanking.TransferOtpService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -26,6 +27,9 @@ public class TransferOtpController {
 	
 	@Autowired
 	private CustomerController customerController;
+	
+	@Autowired
+	private MailService mailService;
 	
 	public static boolean compareDates(Date date1,Date date2){
         if(date1.after(date2)){
@@ -57,12 +61,18 @@ public class TransferOtpController {
 		int number = 100000 + random.nextInt(900000);
 		String token = Integer.toString(number);
 		//user
-		Customer customer = customerController.getCustomerById(object.get("customer").asLong());
+		Customer customer = customerController.getByCifCode(object.get("cif_code").asText());
+		Double totalAmount = object.get("totalAmount").asDouble();
+		String currency = object.get("currency").asText();
+		String accNumber = object.get("accNumber").asText();
+		String accName = object.get("accName").asText();
+		String bankName = object.get("bankName").asText();
 		
 		transferOtp.setCreated_date(createdDate);
 		transferOtp.setExpired_date(expiredDate);
 		transferOtp.setToken(token);
 		transferOtp.setCustomer(customer);
+		mailService.sendTransferOtp(customer, transferOtp, totalAmount, currency, accNumber, accName, bankName);
 		return new ResponseEntity<>(service.saveTransferOtp(transferOtp), HttpStatus.OK);
 	}
 	
