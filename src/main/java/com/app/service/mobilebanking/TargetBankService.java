@@ -26,4 +26,8 @@ public class TargetBankService {
 		return repository.findById(id);
 	}
 	
+	public TargetBank getTargetBankBySknCode(String skn_code) {
+		return repository.findBySknCode(skn_code);
+	}
+	
 }

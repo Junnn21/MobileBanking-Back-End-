@@ -8,4 +8,5 @@ import com.app.entity.mobilebanking.TargetBank;
 @Repository
 public interface TargetBankRepository extends JpaRepository<TargetBank, Long> {
 	TargetBank findById(long id);
+	TargetBank findBySknCode(String skn_code);
 }

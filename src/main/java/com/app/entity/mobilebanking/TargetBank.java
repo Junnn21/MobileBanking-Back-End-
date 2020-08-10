@@ -27,7 +27,7 @@ public class TargetBank extends Auditable<String>{
 	private String network_code;
 	
 	@Column(name = "skn_code")
-	private String skn_code;
+	private String sknCode;
 	
 	@Column(name = "rtgs_code")
 	private String rtgs_code;
@@ -69,12 +69,12 @@ public class TargetBank extends Auditable<String>{
 		this.network_code = network_code;
 	}
 
-	public String getSkn_code() {
-		return skn_code;
+	public String getSknCode() {
+		return sknCode;
 	}
 
-	public void setSkn_code(String skn_code) {
-		this.skn_code = skn_code;
+	public void setSknCode(String sknCode) {
+		this.sknCode = sknCode;
 	}
 
 	public String getRtgs_code() {

@@ -32,7 +32,7 @@ public class TargetBankController {
 		targetBank.setNetwork_enabled(object.get("network_enabled").asText());
 		targetBank.setRtgs_code(object.get("rtgs_code").asText());
 		targetBank.setRtgs_enabled(object.get("rtgs_enabled").asText());
-		targetBank.setSkn_code(object.get("skn_code").asText());
+		targetBank.setSknCode(object.get("skn_code").asText());
 		targetBank.setSkn_enabled(object.get("skn_enabled").asText());
 		targetBank.setStatus(statusRepo.findById(object.get("status").asLong()));
 		return new ResponseEntity<>(service.saveNewTargetBank(targetBank), HttpStatus.OK);
@@ -41,6 +41,11 @@ public class TargetBankController {
 	@RequestMapping(value = "/targetBank", method = RequestMethod.POST)
 	public List<TargetBank> getAllTargetBank(){
 		return service.getAllTargetBank();
+	}
+	
+	@RequestMapping(value = "/getTargetBankBySknCode", method = RequestMethod.POST)
+	public TargetBank getTargetBankBySknCode(@RequestBody ObjectNode object) {
+		return service.getTargetBankBySknCode(object.get("bankCode").asText());
 	}
 	
 }
