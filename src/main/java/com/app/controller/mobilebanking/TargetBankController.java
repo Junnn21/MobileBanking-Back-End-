@@ -1,5 +1,6 @@
 package com.app.controller.mobilebanking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,30 @@ public class TargetBankController {
 	}
 	
 	@RequestMapping(value = "/targetBank", method = RequestMethod.POST)
-	public List<TargetBank> getAllTargetBank(){
-		return service.getAllTargetBank();
+	public List<TargetBank> getAllTargetBank(@RequestBody ObjectNode object){
+		List<TargetBank> allTargetBank = service.getAllTargetBank();
+		List<TargetBank> searchTargetBank = new ArrayList<TargetBank>();
+		String keyword = object.get("keyword").asText().toUpperCase();
+		if(object.get("keyword").asText().isEmpty()) {
+			System.out.println("Masuk 1");
+			return allTargetBank;
+		}else {
+			if(Character.isDigit(keyword.charAt(0))) {
+				for (int i = 0; i < allTargetBank.size(); i++) {
+					if(allTargetBank.get(i).getNetwork_code().contains(keyword)) {
+						searchTargetBank.add(allTargetBank.get(i)); 
+					}
+				}
+			}else {
+				for (int i = 0; i < allTargetBank.size(); i++) {
+					if(allTargetBank.get(i).getBank_name().contains(keyword)) {
+						searchTargetBank.add(allTargetBank.get(i)); 
+						
+					}
+				}
+			}
+			return searchTargetBank;
+		}
 	}
 	
 	@RequestMapping(value = "/getTargetBankBySknCode", method = RequestMethod.POST)
