@@ -78,7 +78,7 @@ public class TransferOtpController {
 	
 	@RequestMapping(value = "/validateTransferOtp", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> validateTransferOtp(@RequestBody ObjectNode object){
-		Customer customer = customerController.getCustomerById(object.get("customer").asLong());
+		Customer customer = customerController.getByCifCode(object.get("cif_code").asText());
 		List<TransferOtp> list = service.getTransferOtpByCustomer(customer);
 		TransferOtp data = list.get(list.size()-1);
 		Date now = new Date();

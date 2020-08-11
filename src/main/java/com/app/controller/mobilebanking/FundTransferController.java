@@ -66,13 +66,13 @@ public class FundTransferController {
 		Customer customer = accountController.findAccountByAccountNumber(accountNumber).getCustomer();
 		TargetAccount targetAccount = targetAccountController.getTargetAccountByCustomerAndTargetAccountNumber(customer, targetAccountNumber);
 		Double amount = object.get("amount").asDouble();
-		Double bankCharge = (double) 0;
+		Double bankCharge = object.get("bankCharge").asDouble();
 		Timestamp time = new Timestamp(System.currentTimeMillis());
 		
-		//tentuin biaya transfer (asumsi target bank no 1 = sinarmas)
-		if(object.get("targetBank").asInt() != 1) {
-			bankCharge += 5000;		//masih hardcode, gatau dapetnya darimana
-		}
+//		//tentuin biaya transfer (asumsi target bank no 1 = sinarmas)
+//		if(object.get("targetBank").asInt() != 1) {
+//			bankCharge += 5000;		//masih hardcode, gatau dapetnya darimana
+//		}
 		
 		//proses save data transaksi
 		newFundTransfer.setTransaction_reference_number(Function.generateTransactionReferenceNumber());
@@ -82,7 +82,7 @@ public class FundTransferController {
 		newFundTransfer.setMessage(object.get("message").asText() != null ? object.get("message").asText() : "-");
 		newFundTransfer.setStatus(statusRepository.findById(object.get("status").asLong()));
 		newFundTransfer.setTarget_account(targetAccount);
-		newFundTransfer.setTarget_bank(targetBankService.getTargetBankById(object.get("targetBank").asLong()));
+		newFundTransfer.setTarget_bank(targetBankService.getTargetBankBySknCode(object.get("targetBank").asText()));
 		newFundTransfer.setTotal_amount_debited(amount + bankCharge);
 		newFundTransfer.setTransaction_type(lookupService.getLookupById(object.get("lookup").asLong()));
 		newFundTransfer.setTransfer_date(time);
@@ -104,7 +104,7 @@ public class FundTransferController {
 		//create new account statement rekening penerima
 		Double balancePenerima = accountDummyController.getBalance(targetAccountNumber);
 		accountStatementController.saveAccountStatementDummy(
-				accountDummyPenerima, newFundTransfer, "Fund Transfer", accountNumber + " - " + accountController.findAccountByAccountNumber(accountNumber).getCustomer().getFull_name(), 
+				accountDummyPenerima, newFundTransfer, "Fund Transfer", accountNumber + " - " + accountController.findAccountByAccountNumber(accountNumber).getAccount_name(), 
 				newFundTransfer.getAmount(), balancePenerima
 		);
 		

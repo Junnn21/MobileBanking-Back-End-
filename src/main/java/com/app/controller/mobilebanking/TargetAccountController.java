@@ -43,9 +43,9 @@ public class TargetAccountController {
 	@RequestMapping(value = "/saveNewTargetAccount", method = RequestMethod.POST)
 	public ResponseEntity<TargetAccount> saveNewTargetAccount(@RequestBody ObjectNode object){
 		Account account = accountController.findAccountByAccountNumber(object.get("accountNumber").asText());
-		Customer customer = customerRepo.findById(object.get("customer").asLong());
+		Customer customer = customerRepo.findCustomerByCifCode(object.get("cif_code").asText());
 		Status status = statusRepo.findById(object.get("status").asLong());
-		TargetBank targetBank = targetBankRepo.findById(object.get("targetBank").asLong());
+		TargetBank targetBank = targetBankRepo.findBySknCode(object.get("bankCode").asText());
 		TargetAccount targetAccount = new TargetAccount();
 		targetAccount.setAccount_number(object.get("accountNumber").asText());
 		targetAccount.setBank_detail(targetBank);
@@ -59,7 +59,7 @@ public class TargetAccountController {
 	//munculin list target account 
 	@RequestMapping(value = "/getTargetAccounts", method = RequestMethod.POST)
 	public ResponseEntity<List<TargetAccount>> getTargetAccount(@RequestBody ObjectNode object){
-		return new ResponseEntity<List<TargetAccount>>(service.getTargetAccount(customerRepo.findById(object.get("customer").asLong())), HttpStatus.OK);
+		return new ResponseEntity<List<TargetAccount>>(service.getTargetAccount(customerRepo.findCustomerByCifCode(object.get("cif_code").asText())), HttpStatus.OK);
 	}
 	
 	public TargetAccount getTargetAccountByCustomerAndTargetAccountNumber(Customer customer, String targetAccountNumber) {
