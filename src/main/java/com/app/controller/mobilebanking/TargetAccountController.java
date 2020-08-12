@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
@@ -18,6 +19,7 @@ import com.app.entity.mobilebanking.TargetBank;
 import com.app.repository.mobilebanking.CustomerRepository;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.repository.mobilebanking.TargetBankRepository;
+import com.app.service.corebankingdummy.AccountDummyService;
 import com.app.service.mobilebanking.TargetAccountService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -34,6 +36,9 @@ public class TargetAccountController {
 	private AccountController accountController;
 	
 	@Autowired
+	private AccountDummyService accountDummyService;
+	
+	@Autowired
 	private StatusRepository statusRepo;
 	
 	@Autowired
@@ -42,7 +47,7 @@ public class TargetAccountController {
 	//tambah target account
 	@RequestMapping(value = "/saveNewTargetAccount", method = RequestMethod.POST)
 	public ResponseEntity<TargetAccount> saveNewTargetAccount(@RequestBody ObjectNode object){
-		Account account = accountController.findAccountByAccountNumber(object.get("accountNumber").asText());
+		AccountDummy account = accountDummyService.findAccountDummyByAccountNumber(object.get("accountNumber").asText());
 		Customer customer = customerRepo.findCustomerByCifCode(object.get("cif_code").asText());
 		Status status = statusRepo.findById(object.get("status").asLong());
 		TargetBank targetBank = targetBankRepo.findBySknCode(object.get("bankCode").asText());

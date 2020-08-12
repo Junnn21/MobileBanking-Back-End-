@@ -94,7 +94,7 @@ public class FundTransferController {
 		//create new account statement rekening pengirim
 		Double balancePengirim = accountDummyController.getBalance(accountNumber);
 		accountStatementController.saveAccountStatementDummy(
-				accountDummyPengirim, newFundTransfer, "Fund Transfer", targetAccountNumber + " - " + accountController.findAccountByAccountNumber(targetAccountNumber).getCustomer().getFull_name(), 
+				accountDummyPengirim, newFundTransfer, "Fund Transfer", targetAccountNumber + " - " + accountController.findAccountByAccountNumber(targetAccountNumber).getAccount_name(), 
 				-newFundTransfer.getTotal_amount_debited(), balancePengirim
 		);
 		
