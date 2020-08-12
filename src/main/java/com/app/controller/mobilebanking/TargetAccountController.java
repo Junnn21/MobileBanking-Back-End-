@@ -50,7 +50,7 @@ public class TargetAccountController {
 		AccountDummy account = accountDummyService.findAccountDummyByAccountNumber(object.get("accountNumber").asText());
 		Customer customer = customerRepo.findCustomerByCifCode(object.get("cif_code").asText());
 		Status status = statusRepo.findById(object.get("status").asLong());
-		TargetBank targetBank = targetBankRepo.findBySknCode(object.get("bankCode").asText());
+		TargetBank targetBank = targetBankRepo.findById(object.get("bankId").asLong());
 		TargetAccount targetAccount = new TargetAccount();
 		targetAccount.setAccount_number(object.get("accountNumber").asText());
 		targetAccount.setBank_detail(targetBank);

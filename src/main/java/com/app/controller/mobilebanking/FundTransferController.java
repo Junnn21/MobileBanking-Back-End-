@@ -82,7 +82,7 @@ public class FundTransferController {
 		newFundTransfer.setMessage(object.get("message").asText() != null ? object.get("message").asText() : "-");
 		newFundTransfer.setStatus(statusRepository.findById(object.get("status").asLong()));
 		newFundTransfer.setTarget_account(targetAccount);
-		newFundTransfer.setTarget_bank(targetBankService.getTargetBankBySknCode(object.get("targetBank").asText()));
+		newFundTransfer.setTarget_bank(targetBankService.getTargetBankById(object.get("targetBankId").asLong()));
 		newFundTransfer.setTotal_amount_debited(amount + bankCharge);
 		newFundTransfer.setTransaction_type(lookupService.getLookupById(object.get("lookup").asLong()));
 		newFundTransfer.setTransfer_date(time);
