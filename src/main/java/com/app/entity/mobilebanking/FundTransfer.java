@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,19 +29,19 @@ public class FundTransfer extends Auditable<String> {
 	@Column(name = "bank_reference_number")
 	private String bank_reference_number;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "transaction_type")
 	private Lookup transaction_type;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "account")
 	private Account account;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "target_account")
 	private TargetAccount target_account;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "target_bank")
 	private TargetBank target_bank;
 	

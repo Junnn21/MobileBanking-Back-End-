@@ -15,6 +15,10 @@ public class TargetAccountService {
 	@Autowired
 	private TargetAccountRepository repository;
 	
+	public TargetAccount findById(long id) {
+		return repository.findById(id);
+	}
+	
 	public TargetAccount saveNewTargetAccount(TargetAccount targetAccount) {
 		return repository.save(targetAccount);
 	}

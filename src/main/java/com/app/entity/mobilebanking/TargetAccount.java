@@ -1,5 +1,6 @@
 package com.app.entity.mobilebanking;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class TargetAccount extends Auditable<String>{
 	@Column(name = "account_number")
 	private String account_number;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "status")
 	private Status status;
 	
