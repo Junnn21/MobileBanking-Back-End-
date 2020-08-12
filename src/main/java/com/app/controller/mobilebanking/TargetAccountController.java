@@ -1,5 +1,6 @@
 package com.app.controller.mobilebanking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.entity.corebankingdummy.AccountDummy;
-import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
 import com.app.entity.mobilebanking.TargetAccount;
@@ -31,9 +31,6 @@ public class TargetAccountController {
 	
 	@Autowired
 	private CustomerRepository customerRepo;
-	
-	@Autowired
-	private AccountController accountController;
 	
 	@Autowired
 	private AccountDummyService accountDummyService;
@@ -64,7 +61,41 @@ public class TargetAccountController {
 	//munculin list target account 
 	@RequestMapping(value = "/getTargetAccounts", method = RequestMethod.POST)
 	public ResponseEntity<List<TargetAccount>> getTargetAccount(@RequestBody ObjectNode object){
-		return new ResponseEntity<List<TargetAccount>>(service.getTargetAccount(customerRepo.findCustomerByCifCode(object.get("cif_code").asText())), HttpStatus.OK);
+		String keyword = object.get("keyword").asText();
+		Customer customer = customerRepo.findCustomerByCifCode(object.get("cif_code").asText()); 
+		List<TargetAccount> allTargetAccount = service.getTargetAccount(customer);
+		List<TargetAccount> activeTargetAccount = new ArrayList<>();
+		List<TargetAccount> searchTargetAccount = new ArrayList<>();
+		for (int i = 0; i < allTargetAccount.size(); i++) {
+			if(allTargetAccount.get(i).getStatus().getCode().equals("aktif")) {
+				activeTargetAccount.add(allTargetAccount.get(i));
+			}
+		}
+		if(keyword.isEmpty()){
+			return new ResponseEntity<List<TargetAccount>>(activeTargetAccount, HttpStatus.OK);
+		}else {
+			for (int i = 0; i < activeTargetAccount.size(); i++) {
+				if(activeTargetAccount.get(i).getAccount_number().contains(keyword)) {
+					searchTargetAccount.add(activeTargetAccount.get(i));
+				}
+			}
+			return new ResponseEntity<List<TargetAccount>>(searchTargetAccount, HttpStatus.OK);
+		}
+	}
+	
+	@RequestMapping(value = "/deleteTargetAccount", method = RequestMethod.POST)
+	public ResponseEntity<TargetAccount> deleteTargetAccount(@RequestBody ObjectNode object){
+		TargetAccount targetAccount = service.findById(object.get("targetAccount").asLong());
+		List<Status> status = statusRepo.findByType("target_account");
+		Status newStatus = new Status();
+		for (int i = 0; i < status.size(); i++) {
+			if(status.get(i).getCode().equals("inaktif")) {
+				newStatus = status.get(i);
+				break;
+			}
+		}
+		targetAccount.setStatus(newStatus);
+		return new ResponseEntity<>(service.saveNewTargetAccount(targetAccount), HttpStatus.OK);
 	}
 	
 	public TargetAccount getTargetAccountByCustomerAndTargetAccountNumber(Customer customer, String targetAccountNumber) {
