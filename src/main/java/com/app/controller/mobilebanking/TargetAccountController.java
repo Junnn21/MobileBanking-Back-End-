@@ -44,10 +44,32 @@ public class TargetAccountController {
 	//tambah target account
 	@RequestMapping(value = "/saveNewTargetAccount", method = RequestMethod.POST)
 	public ResponseEntity<TargetAccount> saveNewTargetAccount(@RequestBody ObjectNode object){
+		
 		AccountDummy account = accountDummyService.findAccountDummyByAccountNumber(object.get("accountNumber").asText());
 		Customer customer = customerRepo.findCustomerByCifCode(object.get("cif_code").asText());
-		Status status = statusRepo.findById(object.get("status").asLong());
+		List<Status> statusList = statusRepo.findByType("target_account");
+		
+		//dapetin status type: target_account code: aktif
+		Status status = new Status();
+		for( int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
 		TargetBank targetBank = targetBankRepo.findById(object.get("bankId").asLong());
+		
+		//cek udah ada apa belom
+		List<TargetAccount> targetAccountList = service.getTargetAccount(customer);
+		for (int i = 0; i < targetAccountList.size(); i++) {
+			if(targetAccountList.get(i).getAccount_number().equals(object.get("accountNumber").asText())) {
+				if(targetAccountList.get(i).getBank_detail().equals(targetBank)) {
+					targetAccountList.get(i).setStatus(status);
+					return new ResponseEntity<>(service.saveNewTargetAccount(targetAccountList.get(i)), HttpStatus.OK);
+				}
+			}
+		}
+		
+		//kalau masih baru
 		TargetAccount targetAccount = new TargetAccount();
 		targetAccount.setAccount_number(object.get("accountNumber").asText());
 		targetAccount.setBank_detail(targetBank);
