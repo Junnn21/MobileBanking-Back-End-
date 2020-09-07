@@ -16,6 +16,8 @@ import com.app.controller.corebankingdummy.AccountStatementDummyController;
 import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.FundTransfer;
+import com.app.entity.mobilebanking.Lookup;
+import com.app.entity.mobilebanking.Status;
 import com.app.entity.mobilebanking.TargetAccount;
 import com.app.function.Function;
 import com.app.repository.mobilebanking.StatusRepository;
@@ -69,22 +71,42 @@ public class FundTransferController {
 		Double bankCharge = object.get("bankCharge").asDouble();
 		Timestamp time = new Timestamp(System.currentTimeMillis());
 		
-//		//tentuin biaya transfer (asumsi target bank no 1 = sinarmas)
-//		if(object.get("targetBank").asInt() != 1) {
-//			bankCharge += 5000;		//masih hardcode, gatau dapetnya darimana
-//		}
+		List<Status> statusList = statusRepository.findByType("fund_transfer");
+		Status status = new Status();
+		for (int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
 		
-		//proses save data transaksi
+		List<Lookup> lookupList = lookupService.getLookupByType("fund_transfer");
+		Lookup transaction_type = new Lookup();
+		for (int i = 0; i < lookupList.size(); i++) {
+			if(targetBankService.getTargetBankById(object.get("targetBankId").asLong()).getSknCode().equals("153")) {
+				if(lookupList.get(i).getCode().equals("inbank")) {
+					transaction_type = lookupList.get(i);
+				}
+			}else if(bankCharge == 0){
+				if(lookupList.get(i).getCode().equals("skn")) {
+					transaction_type = lookupList.get(i);
+				}
+			}else {
+				if(lookupList.get(i).getCode().equals("network")) {
+					transaction_type = lookupList.get(i);
+				}
+			}
+		}
+		
 		newFundTransfer.setTransaction_reference_number(Function.generateTransactionReferenceNumber());
 		newFundTransfer.setAccount(accountController.findAccountByAccountNumber(accountNumber));
 		newFundTransfer.setAmount(amount);
 		newFundTransfer.setBank_charge(bankCharge);
 		newFundTransfer.setMessage(object.get("message").asText() != null ? object.get("message").asText() : "-");
-		newFundTransfer.setStatus(statusRepository.findById(object.get("status").asLong()));
+		newFundTransfer.setStatus(status);
 		newFundTransfer.setTarget_account(targetAccount);
 		newFundTransfer.setTarget_bank(targetBankService.getTargetBankById(object.get("targetBankId").asLong()));
 		newFundTransfer.setTotal_amount_debited(amount + bankCharge);
-		newFundTransfer.setTransaction_type(lookupService.getLookupById(object.get("lookup").asLong()));
+		newFundTransfer.setTransaction_type(transaction_type);
 		newFundTransfer.setTransfer_date(time);
 		newFundTransfer.setCurrency(targetAccount.getCurrency());
 		
@@ -107,6 +129,8 @@ public class FundTransferController {
 				accountDummyPenerima, newFundTransfer, "Fund Transfer", accountNumber + " - " + accountDummyController.findAccountDummyByAccountNumber(accountNumber).getAccount_name(), 
 				newFundTransfer.getAmount(), balancePenerima
 		);
+		
+		newFundTransfer.setBank_reference_number(Function.generateFundTransferBankReferenceNumber());
 		
 		return new ResponseEntity<FundTransfer>(service.saveNewFundTransfer(newFundTransfer), HttpStatus.OK);
 	}

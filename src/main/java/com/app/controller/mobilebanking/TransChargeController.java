@@ -46,7 +46,13 @@ public class TransChargeController {
 		TransCharge newTransCharge = new TransCharge();
 		Timestamp date = new Timestamp(System.currentTimeMillis());
 		Lookup lookup = lookupService.getLookupById(object.get("relationToBank").asLong());
-		Status status = statusRepository.findById(object.get("status").asLong());
+		List<Status> statusList = statusRepository.findByType("trans_charge");
+		Status status = new Status();
+		for (int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
 		
 		newTransCharge.setTransaction_type(object.get("transactionType").asText());
 		newTransCharge.setMerchant_mode(object.get("merchantMode").asText());

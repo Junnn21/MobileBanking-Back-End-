@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.entity.mobilebanking.Status;
 import com.app.entity.mobilebanking.TargetBank;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.service.mobilebanking.TargetBankService;
@@ -27,6 +28,15 @@ public class TargetBankController {
 	
 	@RequestMapping(value = "/saveNewTargetBank", method = RequestMethod.POST)
 	public ResponseEntity<TargetBank> saveNewTargetBank(@RequestBody ObjectNode object){
+		
+		List<Status> statusList = statusRepo.findByType("target_bank");
+		Status status = new Status();
+		for (int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
+		
 		TargetBank targetBank = new TargetBank();
 		targetBank.setBank_name(object.get("bank_name").asText());
 		targetBank.setNetwork_code(object.get("network_code").asText());
@@ -35,7 +45,7 @@ public class TargetBankController {
 		targetBank.setRtgs_enabled(object.get("rtgs_enabled").asText());
 		targetBank.setSknCode(object.get("skn_code").asText());
 		targetBank.setSkn_enabled(object.get("skn_enabled").asText());
-		targetBank.setStatus(statusRepo.findById(object.get("status").asLong()));
+		targetBank.setStatus(status);
 		return new ResponseEntity<>(service.saveNewTargetBank(targetBank), HttpStatus.OK);
 	}
 	

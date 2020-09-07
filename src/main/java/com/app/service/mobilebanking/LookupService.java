@@ -26,4 +26,7 @@ public class LookupService {
 		return repository.findById(id);
 	}
 	
+	public List<Lookup> getLookupByType(String type) {
+		return repository.findByType(type);
+	}
 }

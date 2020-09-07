@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.app.controller.corebankingdummy.AccountDummyController;
 import com.app.controller.corebankingdummy.AccountStatementDummyController;
 import com.app.entity.corebankingdummy.AccountDummy;
-import com.app.entity.corebankingdummy.AccountStatementDummy;
 import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
@@ -55,9 +54,17 @@ public class AccountController {
 	@RequestMapping(value = "/saveNewAccount", method = RequestMethod.POST)
 	public ResponseEntity<String> saveNewAccount(@RequestBody ObjectNode object) {
 		System.out.println(object.get("status"));
-		Status status = statusRepo.findById(object.get("status").asLong());
+		
 		Customer customer = customerRepo.findById(object.get("customer").asLong());
-		System.out.println(status + " ||||| " + customer);
+		
+		List<Status> statusList = statusRepo.findByType("account");
+		Status status = new Status();
+		for (int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
+		
 		if(status!=null && customer!=null) {
 			
 			Account newAccount = new Account();
