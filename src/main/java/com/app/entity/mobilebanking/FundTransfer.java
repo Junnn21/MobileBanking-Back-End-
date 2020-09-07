@@ -60,7 +60,7 @@ public class FundTransfer extends Auditable<String> {
 	@Column(name = "total_amount_debited")
 	private double total_amount_debited;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "status")
 	private Status status;
 	

@@ -53,8 +53,16 @@ public class UserController {
 	//tambahin user baru
 	@RequestMapping(value = "/saveNewUser", method = RequestMethod.POST)
 	public ResponseEntity<User> saveNewUser(@RequestBody ObjectNode object){
-		Status status = statusRepo.findById(object.get("status").asLong());
 		CustomerDummy customerDummy = customerDummyController.getCustomerDummyById(object.get("customer").asLong());
+		
+		List<Status> statusList = statusRepo.findByType("user");
+		Status status = new Status();
+		for (int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
+		
 		if(status != null) {
 			User newUser = new User();
 			newUser.setEmail(customerDummy.getEmail());

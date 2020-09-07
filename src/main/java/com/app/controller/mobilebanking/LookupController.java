@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.entity.mobilebanking.Lookup;
+import com.app.entity.mobilebanking.Status;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.service.mobilebanking.LookupService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -29,11 +30,20 @@ public class LookupController {
 	
 	@RequestMapping(value = "/saveNewLookup", method = RequestMethod.POST)
 	public Lookup saveNewLookup(@RequestBody ObjectNode object) {
+		
+		List<Status> statusList = statusRepository.findByType("lookup");
+		Status status = new Status();
+		for (int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
+		
 		Lookup newLookup = new Lookup();
 		newLookup.setType(object.get("type").asText());
 		newLookup.setCode(object.get("code").asText());
 		newLookup.setName(object.get("name").asText());
-		newLookup.setStatus(statusRepository.findById(object.get("status").asLong()));
+		newLookup.setStatus(status);
 		
 		return service.saveNewLookup(newLookup);
 	}

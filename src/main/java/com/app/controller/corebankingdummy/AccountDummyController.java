@@ -58,7 +58,15 @@ public class AccountDummyController {
 		}
 		AccountDummy account = new AccountDummy();
 		CustomerDummy customer = customerDummyRepo.findCustomerDummyById(object.get("customer").asLong());
-		Status status = statusRepo.findById(object.get("status").asLong());
+		
+		List<Status> statusList = statusRepo.findByType("account");
+		Status status = new Status();
+		for (int i = 0; i < statusList.size(); i++) {
+			if(statusList.get(i).getCode().equals("aktif")) {
+				status = statusList.get(i);
+			}
+		}
+		
 		account.setAccount_name(customer.getFull_name());
 		account.setAccountNumber(accountNumber);
 		account.setBalance(object.get("balance").asDouble());

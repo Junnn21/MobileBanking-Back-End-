@@ -33,7 +33,7 @@ public class Account extends Auditable<String> implements Serializable{
 	@Column(name = "account_name")
 	private String account_name;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "status")
 	private Status status;
 	

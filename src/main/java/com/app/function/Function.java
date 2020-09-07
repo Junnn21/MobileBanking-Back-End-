@@ -22,4 +22,12 @@ public class Function {
 		String reference = "MB"  + sdf.format(date) + random.nextInt(10000);
 		return reference;
 	}
+	
+	public static String generateFundTransferBankReferenceNumber() {
+		Random random = new Random();
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("ddMMYYYYSSSS");
+		String reference = "FT"  + sdf.format(date) + random.nextInt(10000);
+		return reference;
+	}
 }

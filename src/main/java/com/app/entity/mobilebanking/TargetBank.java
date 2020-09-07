@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -41,7 +42,7 @@ public class TargetBank extends Auditable<String>{
 	@Column(name = "rtgs_enabled")
 	private String rtgs_enabled;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "status")
 	private Status status;
 

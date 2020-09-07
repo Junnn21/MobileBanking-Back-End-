@@ -35,7 +35,7 @@ public class TargetAccount extends Auditable<String>{
 	@Column(name = "account_number")
 	private String account_number;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "status")
 	private Status status;
 	

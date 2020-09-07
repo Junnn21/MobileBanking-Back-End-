@@ -33,8 +33,6 @@ public class AccountStatementDummyController {
 			@RequestBody AccountDummy account,FundTransfer fundTransfer, String type, String detail, Double amount, Double balance
 	){
 		AccountStatementDummy accountStatement = new AccountStatementDummy();
-		String referenceNumber = fundTransfer.getTransaction_reference_number();
-		String accountStatementReferenceNumber = referenceNumber.substring(referenceNumber.length() - 10);
 		Date postingDate = new Date();
 		accountStatement.setAccount(account);
 		accountStatement.setAmount(amount);
@@ -43,7 +41,7 @@ public class AccountStatementDummyController {
 		accountStatement.setCustomer_note(fundTransfer.getMessage());
 		accountStatement.setDetail(detail);
 		accountStatement.setPosting_date(postingDate);
-		accountStatement.setTransaction_reference_number(accountStatementReferenceNumber);
+		accountStatement.setTransaction_reference_number(fundTransfer.getTransaction_reference_number());
 		accountStatement.setTransaction_type(type);
 		return new ResponseEntity<>(service.saveAccountStatementDummy(accountStatement), HttpStatus.OK);
 	}

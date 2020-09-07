@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,7 +29,7 @@ public class TransCharge extends Auditable<String> {
 	@Column(name = "merchant_mode")
 	private String merchant_mode;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "relation_to_bank")
 	private Lookup relation_to_bank;
 	
@@ -44,7 +45,7 @@ public class TransCharge extends Auditable<String> {
 	@Column(name = "reference_key")
 	private String reference_key;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "status")
 	private Status status;
 	
