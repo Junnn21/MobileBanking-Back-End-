@@ -45,7 +45,6 @@ public class TargetBankController {
 		List<TargetBank> searchTargetBank = new ArrayList<TargetBank>();
 		String keyword = object.get("keyword").asText().toUpperCase();
 		if(object.get("keyword").asText().isEmpty()) {
-			System.out.println("Masuk 1");
 			return allTargetBank;
 		}else {
 			if(Character.isDigit(keyword.charAt(0))) {

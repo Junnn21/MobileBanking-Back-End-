@@ -1,4 +1,4 @@
-package com.app.entity.mobilebanking;
+package com.app.entity.corebankingdummy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,44 +9,42 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.app.auditing.Auditable;
+import com.app.entity.mobilebanking.BillpaymentMerchant;
+import com.app.entity.mobilebanking.Status;
 
 @Entity
-@Table(name = "target_account", schema = "mobilebanking")
-public class TargetAccount extends Auditable<String>{
+@Table(name = "billpayment_account_dummy", schema = "corebankingdummy", catalog = "corebankingdummy", uniqueConstraints = @UniqueConstraint(columnNames = {"merchant", "account_number"}))
+public class BillpaymentAccountDummy extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
 	
-	@Column(name = "name")
-	private String name;
-	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "bank_detail")
+	@JoinColumn(name = "merchant")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private TargetBank bank_detail;
+	private BillpaymentMerchant merchant;
 	
 	@Column(name = "account_number")
 	private String account_number;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "billed_amount")
+	private Double billed_amount;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "status")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Status status;
-	
-	@ManyToOne
-	@JoinColumn(name = "customer")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Customer customer;
-	
-	@Column(name = "currency")
-	private String currency;
 
 	public long getId() {
 		return id;
@@ -56,20 +54,12 @@ public class TargetAccount extends Auditable<String>{
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public BillpaymentMerchant getMerchant() {
+		return merchant;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public TargetBank getBank_detail() {
-		return bank_detail;
-	}
-
-	public void setBank_detail(TargetBank bank_detail) {
-		this.bank_detail = bank_detail;
+	public void setMerchant(BillpaymentMerchant merchant) {
+		this.merchant = merchant;
 	}
 
 	public String getAccount_number() {
@@ -80,28 +70,28 @@ public class TargetAccount extends Auditable<String>{
 		this.account_number = account_number;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Double getBilled_amount() {
+		return billed_amount;
+	}
+
+	public void setBilled_amount(Double billed_amount) {
+		this.billed_amount = billed_amount;
+	}
+
 	public Status getStatus() {
 		return status;
 	}
 
 	public void setStatus(Status status) {
 		this.status = status;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
 	}
 	
 }

@@ -33,8 +33,9 @@ public class Account extends Auditable<String> implements Serializable{
 	@Column(name = "account_name")
 	private String account_name;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "status")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Status status;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)

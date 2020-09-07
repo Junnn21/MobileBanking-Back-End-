@@ -4,12 +4,16 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.app.auditing.Auditable;
 
@@ -28,8 +32,9 @@ public class TransCharge extends Auditable<String> {
 	@Column(name = "merchant_mode")
 	private String merchant_mode;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "relation_to_bank")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Lookup relation_to_bank;
 	
 	@Column(name = "cif_code")
@@ -44,8 +49,9 @@ public class TransCharge extends Auditable<String> {
 	@Column(name = "reference_key")
 	private String reference_key;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "status")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Status status;
 	
 	@Column(name = "currency")
