@@ -102,4 +102,8 @@ public class CustomerDummyController {
 		return service.getCustomerDummyById(id);
 	}
 	
+	public CustomerDummy findByCifCode(String cif_code) {
+		return service.getCustomerDummyByCifCode(cif_code);
+	}
+	
 }

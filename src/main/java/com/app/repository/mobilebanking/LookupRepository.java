@@ -11,4 +11,5 @@ import com.app.entity.mobilebanking.Lookup;
 public interface LookupRepository extends JpaRepository<Lookup, Long>{
 	Lookup findById(long id);
 	List<Lookup> findByType(String type);
+	Lookup findByTypeAndCode(String type, String code);
 }

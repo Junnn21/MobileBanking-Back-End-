@@ -1,6 +1,7 @@
 package com.app.function;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -30,4 +31,29 @@ public class Function {
 		String reference = "FT"  + sdf.format(date) + random.nextInt(10000);
 		return reference;
 	}
+	
+	public static String generateOtpToken() {
+		Random random = new Random();
+		int number = 100000 + random.nextInt(900000);
+		String token = Integer.toString(number);
+		return token;
+	}
+	
+	public static Date generateExpiredDate() {
+		Calendar expired = Calendar.getInstance();
+		expired.add(Calendar.MINUTE, 5);
+		Date expiredDate = expired.getTime();
+		return expiredDate;
+	}
+	
+	public static boolean compareDates(Date date1,Date date2){
+        if(date1.after(date2)){
+            return false;
+        }else if(date1.before(date2)){
+           	return true;
+        }else if(date1.equals(date2)){
+            return true;
+        }
+        return true;
+    }
 }

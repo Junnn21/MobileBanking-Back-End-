@@ -47,4 +47,8 @@ public class LookupController {
 		
 		return service.saveNewLookup(newLookup);
 	}
+	
+	public Lookup findLookUpByTypeAndCode(String type, String code){
+		return service.getLookupByTypeAndCode(type, code);
+	}
 }
