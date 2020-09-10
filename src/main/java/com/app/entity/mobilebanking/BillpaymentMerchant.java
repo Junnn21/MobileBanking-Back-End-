@@ -16,7 +16,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.app.auditing.Auditable;
 
 @Entity
-@Table(name = "billpayment_merchant", schema = "mobilebanking" )
+@Table(name = "billpayment_merchant", schema = "mobilebanking", catalog = "mobilebanking" )
 public class BillpaymentMerchant extends Auditable<String>{
 
 	@Id

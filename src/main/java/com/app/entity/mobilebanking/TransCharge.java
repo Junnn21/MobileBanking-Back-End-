@@ -27,7 +27,7 @@ public class TransCharge extends Auditable<String> {
 	private long id;
 	
 	@Column(name = "transaction_type")
-	private String transaction_type;
+	private String transactionType;
 	
 	@Column(name = "merchant_mode")
 	private String merchant_mode;
@@ -68,12 +68,12 @@ public class TransCharge extends Auditable<String> {
 		this.id = id;
 	}
 
-	public String getTransaction_type() {
-		return transaction_type;
+	public String getTransactionType() {
+		return transactionType;
 	}
 
-	public void setTransaction_type(String transaction_type) {
-		this.transaction_type = transaction_type;
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 
 	public String getMerchant_mode() {

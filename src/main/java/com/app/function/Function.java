@@ -16,19 +16,11 @@ public class Function {
 		return (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
 	}
 	
-	public static String generateTransactionReferenceNumber() {
+	public static String generateTransactionReferenceNumber(String code) {
 		Random random = new Random();
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMYYYYSSSS");
-		String reference = "MB"  + sdf.format(date) + random.nextInt(10000);
-		return reference;
-	}
-	
-	public static String generateFundTransferBankReferenceNumber() {
-		Random random = new Random();
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("ddMMYYYYSSSS");
-		String reference = "FT"  + sdf.format(date) + random.nextInt(10000);
+		String reference = code  + sdf.format(date) + random.nextInt(10000);
 		return reference;
 	}
 	

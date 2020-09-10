@@ -25,4 +25,8 @@ public class TransChargeService {
 	public TransCharge saveNewTransCharge(TransCharge transCharge) {
 		return repository.save(transCharge);
 	}
+	
+	public List<TransCharge> findTransChargeByTransactionType(String transactionType){
+		return repository.findTransChargeByTransactionType(transactionType);
+	}
 }

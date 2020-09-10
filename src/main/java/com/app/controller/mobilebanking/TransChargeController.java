@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,9 +32,26 @@ public class TransChargeController {
 	@Autowired
 	private StatusRepository statusRepository;
 	
-	@RequestMapping(value = "/transCharge", method = RequestMethod.POST)
+	@RequestMapping(value = "/transCharge", method = RequestMethod.GET)
 	public List<TransCharge> getAllTransCharge(){
 		return service.getAllTransCharge();
+	}
+	
+	@RequestMapping(value = "/getFundTransferTransCharge", method = RequestMethod.GET)
+	public List<TransCharge> getFundTransferTransCharge(){
+		return service.findTransChargeByTransactionType("fund_transfer");
+	}
+	
+	@RequestMapping(value = "/getBillPaymentTransCharge", method = RequestMethod.POST)
+	public TransCharge getBillPaymentTransCharge(@RequestBody String merchantCode) {
+		List<TransCharge> transChargeList = service.findTransChargeByTransactionType("bill_payment");
+		TransCharge transCharge = new TransCharge();
+		for (int i = 0; i < transChargeList.size(); i++) {
+			if(transChargeList.get(i).getMerchant_mode().equals(merchantCode)) {
+				transCharge = transChargeList.get(i);
+			}
+		}
+		return transCharge;
 	}
 	
 	@RequestMapping(value = "/getTransChargeById", method = RequestMethod.POST)
@@ -54,7 +73,7 @@ public class TransChargeController {
 			}
 		}
 		
-		newTransCharge.setTransaction_type(object.get("transactionType").asText());
+		newTransCharge.setTransactionType(object.get("transactionType").asText());
 		newTransCharge.setMerchant_mode(object.get("merchantMode").asText());
 		newTransCharge.setRelation_to_bank(lookup);
 		newTransCharge.setCharge_amount(object.get("chargeAmount").asDouble());
