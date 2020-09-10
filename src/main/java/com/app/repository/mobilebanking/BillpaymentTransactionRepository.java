@@ -7,5 +7,6 @@ import com.app.entity.mobilebanking.BillpaymentTransaction;
 
 @Repository
 public interface BillpaymentTransactionRepository extends JpaRepository<BillpaymentTransaction, Long> {
-
+	BillpaymentTransaction findById(long id);
+	
 }

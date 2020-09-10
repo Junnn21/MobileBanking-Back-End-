@@ -97,7 +97,7 @@ public class FundTransferController {
 			}
 		}
 		
-		newFundTransfer.setTransaction_reference_number(Function.generateTransactionReferenceNumber());
+		newFundTransfer.setTransaction_reference_number(Function.generateTransactionReferenceNumber("MB"));
 		newFundTransfer.setAccount(accountController.findAccountByAccountNumber(accountNumber));
 		newFundTransfer.setAmount(amount);
 		newFundTransfer.setBank_charge(bankCharge);
@@ -109,6 +109,7 @@ public class FundTransferController {
 		newFundTransfer.setTransaction_type(transaction_type);
 		newFundTransfer.setTransfer_date(time);
 		newFundTransfer.setCurrency(targetAccount.getCurrency());
+		newFundTransfer.setBank_reference_number(Function.generateTransactionReferenceNumber("FT"));
 		
 		//proses update balance dari rekening pengirim
 		accountController.updateBalanceCore(accountNumber, -newFundTransfer.getTotal_amount_debited());
@@ -130,7 +131,7 @@ public class FundTransferController {
 				newFundTransfer.getAmount(), balancePenerima
 		);
 		
-		newFundTransfer.setBank_reference_number(Function.generateFundTransferBankReferenceNumber());
+		
 		
 		return new ResponseEntity<FundTransfer>(service.saveNewFundTransfer(newFundTransfer), HttpStatus.OK);
 	}

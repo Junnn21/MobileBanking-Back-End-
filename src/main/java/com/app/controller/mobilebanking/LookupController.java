@@ -47,4 +47,15 @@ public class LookupController {
 		
 		return service.saveNewLookup(newLookup);
 	}
+	
+	public Lookup findLookupByTypeAndCode(String type, String code) {
+		Lookup lookup = new Lookup();
+		List<Lookup> lookupList = service.getLookupByType(type);
+		for (int i = 0; i < lookupList.size(); i++) {
+			if(lookupList.get(i).getCode().equals(code)){
+				lookup = lookupList.get(i);
+			}
+		}
+		return lookup;
+	}
 }

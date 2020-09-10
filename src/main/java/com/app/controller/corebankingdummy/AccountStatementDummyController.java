@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.corebankingdummy.AccountStatementDummy;
+import com.app.entity.mobilebanking.BillpaymentTransaction;
 import com.app.entity.mobilebanking.FundTransfer;
 import com.app.repository.corebankingdummy.AccountDummyRepository;
 import com.app.responseBody.AccountStatementResponse;
@@ -27,29 +28,44 @@ public class AccountStatementDummyController {
 	private AccountStatementDummyService service;
 	
 	@Autowired
-	private AccountDummyRepository accountDummyRepo;
+	private AccountDummyController accountDummyController;
 	
 	public ResponseEntity<AccountStatementDummy> saveAccountStatementDummy(
 			@RequestBody AccountDummy account,FundTransfer fundTransfer, String type, String detail, Double amount, Double balance
 	){
-		AccountStatementDummy accountStatement = new AccountStatementDummy();
+		AccountStatementDummy accountStatement = new AccountStatementDummy();	
 		Date postingDate = new Date();
 		accountStatement.setAccount(account);
 		accountStatement.setAmount(amount);
 		accountStatement.setBalance_after_transaction(balance);
 		accountStatement.setCurrency(fundTransfer.getCurrency());
-		accountStatement.setCustomer_note(fundTransfer.getMessage());
+		accountStatement.setCustomer_note(fundTransfer.getMessage());;
 		accountStatement.setDetail(detail);
 		accountStatement.setPosting_date(postingDate);
-		accountStatement.setTransaction_reference_number(fundTransfer.getTransaction_reference_number());
+		accountStatement.setTransaction_reference_number(fundTransfer.getTransaction_reference_number());;
 		accountStatement.setTransaction_type(type);
 		return new ResponseEntity<>(service.saveAccountStatementDummy(accountStatement), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/accountStatement", method = RequestMethod.POST)
-	public ResponseEntity<List<AccountStatementDummy>> getAccountStatementByAccount(@RequestBody ObjectNode object){
-		return new ResponseEntity<>(service.getAccountStatementDummyByAccount(accountDummyRepo.findAccountDummyById(object.get("account").asLong())), HttpStatus.OK);
+	public AccountStatementDummy saveBillPaymentAccountStatementDummy(String accNumber, BillpaymentTransaction billPayment, String type, String detail, Double amount) {
+		AccountStatementDummy accountStatement = new AccountStatementDummy();
+		Date postingDate = new Date();
+		accountStatement.setAccount(accountDummyController.findAccountDummyByAccountNumber(accNumber));
+		accountStatement.setAmount(amount);
+		accountStatement.setBalance_after_transaction(accountDummyController.getBalance(accNumber));
+		accountStatement.setCurrency(billPayment.getCurrency());
+		accountStatement.setCustomer_note("-");
+		accountStatement.setDetail(detail);
+		accountStatement.setPosting_date(postingDate);
+		accountStatement.setTransaction_reference_number(billPayment.getTransaction_reference_number());
+		accountStatement.setTransaction_type(type);
+		return service.saveAccountStatementDummy(accountStatement);
 	}
+	
+//	@RequestMapping(value = "/accountStatement", method = RequestMethod.POST)
+//	public ResponseEntity<List<AccountStatementDummy>> getAccountStatementByAccount(@RequestBody ObjectNode object){
+//		return new ResponseEntity<>(service.getAccountStatementDummyByAccount(accountDummyController.findAccountDummyById(object.get("account").asLong())), HttpStatus.OK);
+//	}
 	
 //	@RequestMapping(value = "/getAccountStatementByAccountNumber", method = RequestMethod.POST)
 //	public ResponseEntity<List<AccountStatementDummy>> getAccountStatementByAccountNumber(@RequestBody ObjectNode object){
@@ -60,7 +76,7 @@ public class AccountStatementDummyController {
 	
 	public ArrayList<AccountStatementDummy> getAccountStatementByAccountNumber(@RequestBody String accountNumber){
 		ArrayList<AccountStatementDummy> statementList = new ArrayList<AccountStatementDummy>();
-		AccountDummy accountDummy = accountDummyRepo.findAccountDummyByAccountNumber(accountNumber);
+		AccountDummy accountDummy = accountDummyController.findAccountDummyByAccountNumber(accountNumber);
 		List<AccountStatementDummy> accountStatement = service.getAccountStatementDummyByAccount(accountDummy);
 		for (int i = 0; i < accountStatement.size(); i++) {
 			statementList.add(accountStatement.get(i));

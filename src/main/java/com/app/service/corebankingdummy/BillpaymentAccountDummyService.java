@@ -22,4 +22,8 @@ public class BillpaymentAccountDummyService {
 		return repository.save(billpaymentAccountDummy);
 	}
 	
+	public List<BillpaymentAccountDummy> findBillpaymentAccountDummyByAccountNumber(String accNumber){
+		return repository.findByAccountNumber(accNumber);
+	}
+	
 }
