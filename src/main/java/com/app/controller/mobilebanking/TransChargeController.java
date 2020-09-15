@@ -43,15 +43,20 @@ public class TransChargeController {
 	}
 	
 	@RequestMapping(value = "/getBillPaymentTransCharge", method = RequestMethod.POST)
-	public TransCharge getBillPaymentTransCharge(@RequestBody String merchantCode) {
+	public ResponseEntity<TransCharge>  getBillPaymentTransCharge(@RequestBody ObjectNode object) {
 		List<TransCharge> transChargeList = service.findTransChargeByTransactionType("bill_payment");
 		TransCharge transCharge = new TransCharge();
 		for (int i = 0; i < transChargeList.size(); i++) {
-			if(transChargeList.get(i).getMerchant_mode().equals(merchantCode)) {
+			if(transChargeList.get(i).getMerchant_mode().equals(object.get("merchantCode").asText())) {
 				transCharge = transChargeList.get(i);
 			}
 		}
-		return transCharge;
+		
+		if(transCharge.getReference_key()==null) {
+			return new ResponseEntity<TransCharge>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<TransCharge>(transCharge, HttpStatus.OK );	
+		}
 	}
 	
 	@RequestMapping(value = "/getTransChargeById", method = RequestMethod.POST)

@@ -54,7 +54,7 @@ public class BillpaymentTransactionController {
 		BillpaymentTransaction newTransaction = new BillpaymentTransaction();
 		BillpaymentMerchant merchant = merchantController.findByCode(object.get("merchantCode").asText()); //dapetin merchantnya siapa
 		Double amount = object.get("amount").asDouble();
-		Double bankCharge = transChargeController.getBillPaymentTransCharge(object.get("merchantCode").asText()).getCharge_amount();
+		Double bankCharge = object.get("bankCharge").asDouble();
 		Double totalAmountDebited = amount + bankCharge;
 		Status status = statusController.findStatus("bill_payment", "sukses");
 		Date transactionDate = new Date();

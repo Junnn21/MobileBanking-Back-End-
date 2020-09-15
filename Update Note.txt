@@ -4,3 +4,7 @@ Entity baru: Target Subscriber
 Semua entity OTP jadi 1 Entity: TempOtp
 RestController untuk TempOtp
 )
+
+15 September 2020 11:25 (
+Perubahan proses pengambilan bankCharge pada TransChargeController dan BillpaymentTransactionController 
+)
