@@ -71,4 +71,25 @@ public class MailService {
 		javaMailSender.send(mail);
 	}
 	
+	public void sendPaymentOtp(Customer customer, TempOtp tempOtp, Double totalAmount, String merchant, String currency, String subscriberNumber) {
+		SimpleMailMessage mail = new SimpleMailMessage();
+		String censoredSubscriberNumber = subscriberNumber.substring(subscriberNumber.length()-4);
+		String amount = String.format("%,.2f", totalAmount);
+		SimpleDateFormat formatter = new SimpleDateFormat("EEEEE, d MMMMM yyyy HH:mm:ss");
+		String expiredDate = formatter.format(tempOtp.getExpired_date());
+		
+		mail.setTo(customer.getEmail());
+		mail.setSubject("Mobile Banking OTP Token");
+		mail.setText(
+				tempOtp.getToken() + 
+				" e-mail token Prototype mBanking for Purchase " + 
+				merchant + " " + "****" +
+				censoredSubscriberNumber +
+				" IDR " + amount + "."
+				+ " Available before " + expiredDate + ". Never share this code, it is confidential!"
+		);
+		
+		javaMailSender.send(mail);
+	}
+	
 }

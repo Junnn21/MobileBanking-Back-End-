@@ -40,7 +40,7 @@ public class TempOtpController {
 	private LookupController lookupController;
 	
 	@RequestMapping(value = "/saveTempOtp", method = RequestMethod.POST)
-	public ResponseEntity<TempOtp> saveLoginOtp(@RequestBody ObjectNode object){
+	public ResponseEntity<TempOtp> saveTempOtp(@RequestBody ObjectNode object){
 		TempOtp tempOtp = new TempOtp();
 		Date createdDate = new Date();
 		Date expiredDate = Function.generateExpiredDate();
@@ -69,6 +69,12 @@ public class TempOtpController {
 				mailService.sendTransferOtp(customer, tempOtp, totalAmount, currency, accNumber, accName, bankName);
 			}else if (object.get("code").asText().equals("LOGIN")) {
 				mailService.sendLoginOtp(customer, tempOtp);
+			}else if (object.get("code").asText().equals("BILLPAYMENT")) {
+				Double totalAmount = object.get("totalAmount").asDouble();
+				String currency = object.get("currency").asText();
+				String subscriberNumber = object.get("subscriberNumber").asText();
+				String merchant = object.get("merchant").asText();
+				mailService.sendPaymentOtp(customer, tempOtp, totalAmount, merchant, currency, subscriberNumber);
 			}
 			
 		}

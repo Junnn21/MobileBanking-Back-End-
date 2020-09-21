@@ -41,9 +41,6 @@ public class BillpaymentTransactionController {
 	@Autowired
 	private AccountStatementDummyController accountStatementDummyController;
 	
-	@Autowired
-	private TransChargeController transChargeController;
-	
 	@RequestMapping(value = "/getAllBillpaymentTransaction", method = RequestMethod.GET)
 	public ResponseEntity<List<BillpaymentTransaction>> getAllBillpaymentTransaction(){
 		return new ResponseEntity<List<BillpaymentTransaction>>(service.getAllBillpaymentTransaction(), HttpStatus.OK);

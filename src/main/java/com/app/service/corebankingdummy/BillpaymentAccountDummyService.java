@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.entity.corebankingdummy.BillpaymentAccountDummy;
+import com.app.entity.mobilebanking.BillpaymentMerchant;
 import com.app.repository.corebankingdummy.BillpaymentAccountDummyRepository;
 
 @Service
@@ -24,6 +25,10 @@ public class BillpaymentAccountDummyService {
 	
 	public List<BillpaymentAccountDummy> findBillpaymentAccountDummyByAccountNumber(String accNumber){
 		return repository.findByAccountNumber(accNumber);
+	}
+	
+	public BillpaymentAccountDummy getBillpaymentAccountDummy(String accNumber, BillpaymentMerchant merchant) {
+		return repository.findByAccountNumberAndMerchant(accNumber, merchant);
 	}
 	
 }

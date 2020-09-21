@@ -1,10 +1,17 @@
 
-10 September 2020 14:30 (
+10 September 2020 14:30 - Jun (
 Entity baru: Target Subscriber 
 Semua entity OTP jadi 1 Entity: TempOtp
 RestController untuk TempOtp
 )
 
-15 September 2020 11:25 (
+15 September 2020 11:25 - Clavian (
 Perubahan proses pengambilan bankCharge pada TransChargeController dan BillpaymentTransactionController 
+)
+
+21 September 2020 10:27 - Jun (
+- Penambahan controller: TargetSubscriberController, 
+- REST API untuk save dan delete target subscriber, juga untuk menarik list target subscriber
+- Penambahan pada Controller TempOtp: membuat dan mevalidasi TempOtp untuk billpayment
+- Penambahan pada MailService: mengirim email OTP untuk billpayment
 )

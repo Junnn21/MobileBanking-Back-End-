@@ -29,10 +29,10 @@ public class TargetSubscriber extends Auditable<String> {
 	@ManyToOne
 	@JoinColumn(name = "merchant_detail")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private BillpaymentMerchant merchant_detail;
+	private BillpaymentMerchant merchant;
 	
 	@Column(name = "subscriber_number")
-	private String subscriber_number;
+	private String subscriberNumber;
 	
 	@ManyToOne
 	@JoinColumn(name = "status")
@@ -64,19 +64,19 @@ public class TargetSubscriber extends Auditable<String> {
 	}
 
 	public BillpaymentMerchant getMerchant_detail() {
-		return merchant_detail;
+		return merchant;
 	}
 
-	public void setMerchant_detail(BillpaymentMerchant merchant_detail) {
-		this.merchant_detail = merchant_detail;
+	public void setMerchant_detail(BillpaymentMerchant merchant) {
+		this.merchant = merchant;
 	}
 
-	public String getSubscriber_number() {
-		return subscriber_number;
+	public String getSubscribernumber() {
+		return subscriberNumber;
 	}
 
-	public void setSubscriber_number(String subscriber_number) {
-		this.subscriber_number = subscriber_number;
+	public void setSubscriberNumber(String subscriberNumber) {
+		this.subscriberNumber = subscriberNumber;
 	}
 
 	public Status getStatus() {

@@ -11,4 +11,5 @@ import com.app.entity.mobilebanking.Status;
 public interface StatusRepository extends JpaRepository<Status, Long>{
 	Status findById(long id);
 	List<Status> findByType(String type);
+	Status findByTypeAndCode(String type, String code);
 }

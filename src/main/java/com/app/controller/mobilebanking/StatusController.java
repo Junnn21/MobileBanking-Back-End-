@@ -1,7 +1,5 @@
 package com.app.controller.mobilebanking;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +28,7 @@ public class StatusController {
 	}
 	
 	public Status findStatus(String type, String code) {
-		List<Status> allStatus = repository.findAll();
-		for (int i = 0; i < allStatus.size(); i++) {
-			if(allStatus.get(i).getType().equals(type)) {
-				if(allStatus.get(i).getCode().equals(code)) {
-					return allStatus.get(i);
-				}
-			}
-		}
-		return null;
+		return repository.findByTypeAndCode(type, code);
 	}
 	
 }

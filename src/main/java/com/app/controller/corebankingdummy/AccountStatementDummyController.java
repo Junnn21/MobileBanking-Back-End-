@@ -8,18 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.corebankingdummy.AccountStatementDummy;
 import com.app.entity.mobilebanking.BillpaymentTransaction;
 import com.app.entity.mobilebanking.FundTransfer;
-import com.app.repository.corebankingdummy.AccountDummyRepository;
 import com.app.responseBody.AccountStatementResponse;
 import com.app.service.corebankingdummy.AccountStatementDummyService;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 public class AccountStatementDummyController {
