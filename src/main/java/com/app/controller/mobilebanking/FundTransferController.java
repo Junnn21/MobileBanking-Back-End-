@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.app.controller.corebankingdummy.AccountDummyController;
 import com.app.controller.corebankingdummy.AccountStatementDummyController;
@@ -24,6 +25,7 @@ import com.app.repository.mobilebanking.StatusRepository;
 import com.app.service.mobilebanking.FundTransferService;
 import com.app.service.mobilebanking.LookupService;
 import com.app.service.mobilebanking.TargetBankService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
@@ -71,13 +73,7 @@ public class FundTransferController {
 		Double bankCharge = object.get("bankCharge").asDouble();
 		Timestamp time = new Timestamp(System.currentTimeMillis());
 		
-		List<Status> statusList = statusRepository.findByType("fund_transfer");
-		Status status = new Status();
-		for (int i = 0; i < statusList.size(); i++) {
-			if(statusList.get(i).getCode().equals("aktif")) {
-				status = statusList.get(i);
-			}
-		}
+		Status status = statusRepository.findByTypeAndCode("fund_transfer", "sukses");
 		
 		List<Lookup> lookupList = lookupService.getLookupByType("fund_transfer");
 		Lookup transaction_type = new Lookup();
@@ -131,7 +127,14 @@ public class FundTransferController {
 				newFundTransfer.getAmount(), balancePenerima
 		);
 		
-		
+		ObjectMapper mapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		ObjectNode kafkaObject = mapper.createObjectNode();
+		kafkaObject.put("cif_code", accountDummyPengirim.getCustomer().getCifCode());
+		kafkaObject.put("target_account_subscriber", targetAccount.getAccount_number());
+		kafkaObject.put("target_bank_merchant", targetAccount.getBank_detail().getId());
+		kafkaObject.put("type", "FUNDTRANSFER");
+		restTemplate.postForLocation("http://localhost:8181/produceTransaction", kafkaObject);
 		
 		return new ResponseEntity<FundTransfer>(service.saveNewFundTransfer(newFundTransfer), HttpStatus.OK);
 	}

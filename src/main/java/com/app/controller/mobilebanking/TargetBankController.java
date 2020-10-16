@@ -80,4 +80,8 @@ public class TargetBankController {
 		return service.getTargetBankBySknCode(object.get("bankCode").asText());
 	}
 	
+	public TargetBank getById(int id) {
+		return service.getTargetBankById(id);
+	}
+	
 }

@@ -15,3 +15,8 @@ Perubahan proses pengambilan bankCharge pada TransChargeController dan Billpayme
 - Penambahan pada Controller TempOtp: membuat dan mevalidasi TempOtp untuk billpayment
 - Penambahan pada MailService: mengirim email OTP untuk billpayment
 )
+
+16 Oktober 2020 15:27 - Jun (
+- Penambahan entity: TransactionRecommendation
+- RestController untuk TransactionRecommendation digunakan untuk membuat/mengupdate record TransactionRecommendation
+)

@@ -10,14 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 
 import com.app.controller.corebankingdummy.AccountStatementDummyController;
+import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.BillpaymentMerchant;
 import com.app.entity.mobilebanking.BillpaymentTransaction;
 import com.app.entity.mobilebanking.Lookup;
 import com.app.entity.mobilebanking.Status;
 import com.app.function.Function;
 import com.app.service.mobilebanking.BillpaymentTransactionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Controller
@@ -55,6 +58,7 @@ public class BillpaymentTransactionController {
 		Double totalAmountDebited = amount + bankCharge;
 		Status status = statusController.findStatus("bill_payment", "sukses");
 		Date transactionDate = new Date();
+		Account debitAccount = accountController.findAccountByAccountNumber(object.get("accNumber").asText());
 		
 		//tentuin transaction_type
 		Lookup transaction_type = new Lookup();
@@ -67,7 +71,7 @@ public class BillpaymentTransactionController {
 		newTransaction.setTransaction_type(transaction_type);
 		newTransaction.setMerchant(merchant);
 		newTransaction.setTransaction_reference_number(Function.generateTransactionReferenceNumber("MBP"));
-		newTransaction.setDebit_account(accountController.findAccountByAccountNumber(object.get("accNumber").asText()));
+		newTransaction.setDebit_account(debitAccount);
 		newTransaction.setCustomer_number(object.get("customerNumber").asText());
 		newTransaction.setCustomer_name(object.get("customerName").asText());
 		newTransaction.setCurrency("IDR");
@@ -83,6 +87,15 @@ public class BillpaymentTransactionController {
 		
 		//create statement
 		accountStatementDummyController.saveBillPaymentAccountStatementDummy(object.get("accNumber").asText(), newTransaction, "Bill Payment", object.get("customerNumber").asText(), -totalAmountDebited);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		RestTemplate restTemplate = new RestTemplate();
+		ObjectNode kafkaObject = mapper.createObjectNode();
+		kafkaObject.put("cif_code", debitAccount.getCustomer().getCifCode());
+		kafkaObject.put("target_account_subscriber", object.get("customerNumber").asText());
+		kafkaObject.put("target_bank_merchant", object.get("merchantCode").asText());
+		kafkaObject.put("type", "BILLPAYMENT");
+		restTemplate.postForLocation("http://localhost:8181/produceTransaction", kafkaObject);
 		
 		return new ResponseEntity<>(service.saveNewBillpaymentTransaction(newTransaction), HttpStatus.OK);
 	}
