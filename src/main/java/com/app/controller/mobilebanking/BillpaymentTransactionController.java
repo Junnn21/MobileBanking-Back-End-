@@ -93,6 +93,7 @@ public class BillpaymentTransactionController {
 		ObjectNode kafkaObject = mapper.createObjectNode();
 		kafkaObject.put("cif_code", debitAccount.getCustomer().getCifCode());
 		kafkaObject.put("target_account_subscriber", object.get("customerNumber").asText());
+		kafkaObject.put("target_name", object.get("customerName").asText());
 		kafkaObject.put("target_bank_merchant", object.get("merchantCode").asText());
 		kafkaObject.put("type", "BILLPAYMENT");
 		restTemplate.postForLocation("http://localhost:8181/produceTransaction", kafkaObject);

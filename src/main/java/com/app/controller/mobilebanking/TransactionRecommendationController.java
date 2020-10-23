@@ -34,6 +34,7 @@ public class TransactionRecommendationController {
 		transactionRecommendation.setId(object.get("key").asText());
 		transactionRecommendation.setCustomer(customerController.getByCifCode(object.get("cif_code").asText()));
 		transactionRecommendation.setTarget_account_subscriber(object.get("target_account_subscriber").asText());
+		transactionRecommendation.setTarget_name(object.get("target_name").asText());
 		if(object.get("type").asText().equals("FUNDTRANSFER"))
 			transactionRecommendation.setTarget_bank(targetBankController.getById(object.get("target_bank_merchant").asInt()));
 		else

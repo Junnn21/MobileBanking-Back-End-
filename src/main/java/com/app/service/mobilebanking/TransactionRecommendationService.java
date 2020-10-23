@@ -20,7 +20,7 @@ public class TransactionRecommendationService {
 	}
 	
 	public List<TransactionRecommendation> getTransactionRecommendationByCustomer(Customer customer){
-		return repository.getByCustomer(customer);
+		return repository.findFirst5ByCustomerOrderByCountDesc(customer);
 	}
 	
 }

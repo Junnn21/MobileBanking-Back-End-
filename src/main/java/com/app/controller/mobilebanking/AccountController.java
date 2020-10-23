@@ -3,14 +3,18 @@ package com.app.controller.mobilebanking;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.app.controller.corebankingdummy.AccountDummyController;
 import com.app.controller.corebankingdummy.AccountStatementDummyController;
@@ -18,6 +22,7 @@ import com.app.entity.corebankingdummy.AccountDummy;
 import com.app.entity.mobilebanking.Account;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
+import com.app.function.Function;
 import com.app.repository.mobilebanking.CustomerRepository;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.responseBody.AccountBalanceResponse;
@@ -157,4 +162,14 @@ public class AccountController {
 		ArrayList<String> accountNumberList = createAccountNumberList(service.getListAccountByCustomer(customerRepo.findCustomerByCifCode(object.get("cif_code").asText())));
 		return accountStatementDummyController.getAllAccountStatementDummy(accountNumberList);
 	}
+	
+	@PostMapping(value = "/testCreateSession1")
+	public String createNewSession(HttpServletRequest request) {
+		ObjectNode object = JsonNodeFactory.instance.objectNode();
+		String key = Long.toString(Function.generateCifCode());
+		object.put("cif_code", "fffff");
+        request.getSession().setAttribute(key, object);
+        return key;
+	}
+	
 }	

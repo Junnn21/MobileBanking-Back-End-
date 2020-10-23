@@ -132,6 +132,7 @@ public class FundTransferController {
 		ObjectNode kafkaObject = mapper.createObjectNode();
 		kafkaObject.put("cif_code", accountDummyPengirim.getCustomer().getCifCode());
 		kafkaObject.put("target_account_subscriber", targetAccount.getAccount_number());
+		kafkaObject.put("target_name", targetAccount.getName());
 		kafkaObject.put("target_bank_merchant", targetAccount.getBank_detail().getId());
 		kafkaObject.put("type", "FUNDTRANSFER");
 		restTemplate.postForLocation("http://localhost:8181/produceTransaction", kafkaObject);

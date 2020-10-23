@@ -20,3 +20,8 @@ Perubahan proses pengambilan bankCharge pada TransChargeController dan Billpayme
 - Penambahan entity: TransactionRecommendation
 - RestController untuk TransactionRecommendation digunakan untuk membuat/mengupdate record TransactionRecommendation
 )
+
+23 Oktober 2020 09:06 - Jun (
+- Menambah API untuk rekomendasi transaksi
+- Menambah variable baru untuk TransactionRecommendation
+)

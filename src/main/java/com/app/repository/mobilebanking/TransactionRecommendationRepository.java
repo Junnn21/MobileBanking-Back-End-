@@ -10,5 +10,5 @@ import com.app.entity.mobilebanking.TransactionRecommendation;
 
 @Repository
 public interface TransactionRecommendationRepository extends JpaRepository<TransactionRecommendation, String>{
-	List<TransactionRecommendation> getByCustomer(Customer customer);
+	List<TransactionRecommendation> findFirst5ByCustomerOrderByCountDesc(Customer customer);
 }

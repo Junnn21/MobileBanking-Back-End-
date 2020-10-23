@@ -1,10 +1,18 @@
 package com.app.controller.mobilebanking;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,8 +23,10 @@ import com.app.entity.corebankingdummy.CustomerDummy;
 import com.app.entity.mobilebanking.Customer;
 import com.app.entity.mobilebanking.Status;
 import com.app.entity.mobilebanking.User;
+import com.app.function.Function;
 import com.app.repository.mobilebanking.StatusRepository;
 import com.app.service.mobilebanking.UserService;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
@@ -113,5 +123,30 @@ public class UserController {
 		
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+//	@GetMapping(value = "/testCreateSession")
+//	public String createNewSession(HttpSession session, HttpServletRequest request) {
+//        return request.getSession().getId();
+//	}
+//	
+//	@PostMapping(value = "/testUpdateSession")
+//	public String updateSession(HttpServletRequest request) {
+//		ObjectNode object = JsonNodeFactory.instance.objectNode();
+//		object.put("email", "1fff");
+//        request.getSession().setAttribute("cif_code", object);
+//		return request.getSession().getId();
+//	}
+//	
+//	@SuppressWarnings("unchecked")
+//	@GetMapping(value = "/testGetSession")
+//    public String home(HttpSession session) {
+//        return session.getId();    
+//    }
+//	
+//	@PostMapping(value = "/testDestroySession")
+//    public String destroySession(HttpServletRequest request, @RequestBody String key) {
+//        request.getSession().invalidate();
+//        return "Deleted";
+//    }
 	
 }

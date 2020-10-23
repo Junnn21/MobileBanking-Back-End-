@@ -22,6 +22,9 @@ public class TransactionRecommendation {
 	@Column(name = "target_account_subscriber")
 	private String target_account_subscriber;
 	
+	@Column(name = "target_name")
+	private String target_name;
+	
 	@ManyToOne
 	@JoinColumn(name = "target_bank")
 	private TargetBank target_bank;
@@ -58,6 +61,14 @@ public class TransactionRecommendation {
 
 	public void setTarget_account_subscriber(String target_account_subscriber) {
 		this.target_account_subscriber = target_account_subscriber;
+	}
+
+	public String getTarget_name() {
+		return target_name;
+	}
+
+	public void setTarget_name(String target_name) {
+		this.target_name = target_name;
 	}
 
 	public TargetBank getTarget_bank() {
